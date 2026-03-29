@@ -21,11 +21,11 @@ class HomePage extends StatelessWidget {
             
           ),
           BottomNavigationBarItem(
-            icon: ,
+            icon: Icon(Icons.ice_skating),
             label: '', 
           ),
           BottomNavigationBarItem(
-            icon: ,
+            icon: Icon(Icons.ice_skating),
             label: '', 
           ),
         ],

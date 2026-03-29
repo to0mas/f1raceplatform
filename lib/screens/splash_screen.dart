@@ -37,26 +37,28 @@ class _SplashScreenState extends State<SplashScreen>
           width: double.infinity,
           height: double.infinity,
 
-          
-       
 
-          child: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:[
-                  Image.network(
-                    'https://1000logos.net/wp-content/uploads/2021/06/F1-logo.png',
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+
+
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/Logo_tr.png',
+                    height: 250,
+                    width: 250,
                   ),
-
-                  
-                ]
-
-
-            ),
+                ),
+              ),
+              Image.asset(
+                'assets/images/logo_sign.png',
+                height: 200,
+                width: 200,
+              ),
+            ],
           ),
+
         )
     );
   }
