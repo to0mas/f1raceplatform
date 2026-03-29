@@ -21,11 +21,11 @@ class HomePage extends StatelessWidget {
             
           ),
           BottomNavigationBarItem(
-            icon: Image(image:  NetworkImage('https://cdn-icons-png.flaticon.com/512/25/25694.png')),
+            icon: ,
             label: '', 
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: ,
             label: '', 
           ),
         ],
