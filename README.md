@@ -1,4 +1,4 @@
-# f1raceplatform
+# 🏎️ F1 Race Platform
 
 A new Flutter project.
 
