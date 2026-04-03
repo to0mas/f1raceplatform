@@ -72,7 +72,7 @@ body: ListView.builder(
       padding: const EdgeInsets.all(8.0),
       child: CircleAvatar(
         radius: 30,
-         backgroundColor: Color(int.parse('FF' + driver.teamColour, radix: 16)),
+         backgroundColor: Color(int.parse('FF${driver.teamColour}', radix: 16)),
       backgroundImage: driver.headshotUrl != null && driver.headshotUrl!.isNotEmpty
       ? NetworkImage(driver.headshotUrl!)
       : const AssetImage('assets/images/Logo_tr.png') as ImageProvider,
@@ -81,7 +81,7 @@ body: ListView.builder(
     Text(
       driver.nameAcronym,
       style: TextStyle(
-        color: Color(int.parse('FF' + driver.teamColour, radix: 16)),
+        color: Color(int.parse('FF${driver.teamColour}', radix: 16)),
         fontSize: 12,
       ),
     ),
