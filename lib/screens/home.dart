@@ -1,7 +1,9 @@
 import 'package:f1raceplatform/api_calls/driver_call.dart';
 import 'package:f1raceplatform/api_calls/driver_standings_call.dart';
+import 'package:f1raceplatform/api_calls/news_call.dart';
 import 'package:f1raceplatform/models/driver.dart';
 import 'package:f1raceplatform/models/driver_standing.dart';
+import 'package:f1raceplatform/models/news.dart';
 import 'package:flutter/material.dart';
 import 'package:f1raceplatform/theme/theme_data.dart';
 
@@ -17,17 +19,26 @@ class _HomePageState extends State<HomePage> {
 
 List<Driver> drivers = [];
 List<DriverStanding> driverStandings = [];
+List<News> news = [];
 
 @override
+
+
+
+
+
 void initState() {
   super.initState();
   Future.wait([
+   
     DriverCall().getDrivers(),
     DriverStandingsCall().getDriverStandings(),
+     NewsCall().getNews(),
   ]).then((results) {
     setState(() {
       drivers = results[0] as List<Driver>;
       driverStandings = results[1] as List<DriverStanding>;
+      news = results[2] as List<News>;
 
       drivers.sort((a,b){
        final aStanding = driverStandings.firstWhere(
@@ -81,6 +92,8 @@ void initState() {
 
 body: Column(
   children: [
+
+    
 
     Padding(
       padding: const EdgeInsets.all(10.0),
@@ -143,6 +156,57 @@ body: Column(
       );
         }
         ),
+    ),
+
+
+
+    Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        children: [
+          Container(
+
+                  
+            
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(15.0),
+                  height: 200,
+                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                   image: NetworkImage(news[1].urlImg),
+                   colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+                ),
+),
+
+            child: Column(
+              children: [
+                Text(
+                  news[1].title.toUpperCase(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  news[1].description,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            )
+
+          
+                  
+                  
+          ),
+        ],
+      ),
     ),
   ],
 ),
