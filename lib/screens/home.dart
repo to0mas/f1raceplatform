@@ -4,6 +4,7 @@ import 'package:f1raceplatform/api_calls/news_call.dart';
 import 'package:f1raceplatform/models/driver.dart';
 import 'package:f1raceplatform/models/driver_standing.dart';
 import 'package:f1raceplatform/models/news.dart';
+import 'package:f1raceplatform/screens/F1rp_sim/f1rp_sim.dart';
 import 'package:flutter/material.dart';
 import 'package:f1raceplatform/theme/theme_data.dart';
 import 'package:gradient_generator/gradient_generator.dart';
@@ -23,10 +24,6 @@ List<DriverStanding> driverStandings = [];
 List<News> news = [];
 
 @override
-
-
-
-
 
 void initState() {
   super.initState();
@@ -94,8 +91,9 @@ void initState() {
      ),
 
 
-body: Column(
-  children: [
+body: SingleChildScrollView(
+  child: Column(
+    children: [
 
     
 
@@ -145,13 +143,12 @@ GradientContainer(
 
 
 
-Padding(
-  padding: const EdgeInsets.all(10.0),
-  child: Row(
+  
+  Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(8.0),
         child: ElevatedButton.icon(
           
           onPressed: () {}, 
@@ -162,51 +159,64 @@ Padding(
           ),
       ),
   
-  Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ElevatedButton(
-          
-          onPressed: () {}, 
-         
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(150, 189, 48, 48),
-            
-          ),
-         child: Text('Predict your race', style: TextStyle(color: Colors.white)),
-          
-          ),
-     
-      ),
+  
     ],
+  ),
+
+InkWell(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => F1rpSim()),
+    );
+  },
+  borderRadius: BorderRadius.circular(10),
+  child: Padding(  // ← TADY ZAČÍNÁ TVŮJ PŮVODNÍ KÓD
+    padding: const EdgeInsets.all(15.0),
+    child: Column(
+      children: [
+        Container(
+          height: 200,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+            image: DecorationImage(
+              image: Image.asset('assets/images/podium-mclarens-boys-defeated.jpg').image,
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/Logo_tr.png',
+                height: 80,
+                width: 80,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'SIMULATOR',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
   ),
 ),
 
-    
-
-   
-   Padding(
-     padding: const EdgeInsets.all(15.0),
-     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-     
-       children: [
-        
-             Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color.fromARGB(255, 27, 21, 21), 
-                ),
-                    height: 100,
-                    width: 180,
-),
-
-       ],
-     ),
-
- 
 
 
-   ),
 
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
@@ -333,6 +343,7 @@ Padding(
       ),
     ),
   ],
+  ),
 ),
 
 
