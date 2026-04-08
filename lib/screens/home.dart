@@ -6,6 +6,7 @@ import 'package:f1raceplatform/models/driver_standing.dart';
 import 'package:f1raceplatform/models/news.dart';
 import 'package:flutter/material.dart';
 import 'package:f1raceplatform/theme/theme_data.dart';
+import 'package:gradient_generator/gradient_generator.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -66,27 +67,30 @@ void initState() {
 
      appBar: AppBar(
 
-    backgroundColor: Color(Color(0xFF1A1A1A).value),
+    backgroundColor: const Color.fromARGB(150, 197, 11, 11),
 		foregroundColor: Colors.white,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-
-     
-      Center(
-        child: Image.asset(
-          'assets/images/Logo_tr.png',
-          height: 45,
-          width: 45,
-        ),
-      ),
-    
-
-     
-    ],)
- 
+    title: Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
       
-     
+       
+        Center(
+          child: Image.asset(
+            'assets/images/Logo_tr_cerna.png',
+            height: 50,
+            width: 45,
+          ),
+        ),
+      
+      
+      
+       
+      ],
+      
+      ),
+    ),   
      ),
 
 
@@ -95,121 +99,243 @@ body: Column(
 
     
 
-    Padding(
-      padding: const EdgeInsets.all(10.0),
-    
-        child: Text(
-          
-          '2026 Driver Standings',
-           textAlign: TextAlign.left,
-          style: TextStyle(
-            color: const Color.fromARGB(255, 59, 58, 58),
-            fontSize: 18,
-            fontWeight: FontWeight.normal,
-            
-          ),
-        ),
-    
-    ),
+   
 
-    SizedBox(
-      height: 100,
-      child: ListView.builder(
-        
-        
-        scrollDirection: Axis.horizontal,
-        
-        itemCount: drivers.length,
-        itemBuilder: (context, index){
-          final driver = drivers[index];
-          
       
-      
-      
-          return Column(
-      
-            
-      
-        children:
-        
-         [
-          
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 30,
-               backgroundColor: Color(int.parse('FF${driver.teamColour}', radix: 16)),
-            backgroundImage: driver.headshotUrl != null && driver.headshotUrl!.isNotEmpty
-            ? NetworkImage(driver.headshotUrl!)
-            : const AssetImage('assets/images/Logo_tr.png') as ImageProvider,
+
+GradientContainer(
+  gradient: GradientX.linear(
+    colors: [const Color.fromARGB(150, 197, 11, 11), Color(Color.fromARGB(255, 0, 0, 0).value)],
+    angle: -360,
+  ),
+  child: SizedBox(
+    height: 100,
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: drivers.length,
+      itemBuilder: (context, index) {
+        final driver = drivers[index];
+
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor: Color(int.parse('FF${driver.teamColour}', radix: 16)),
+                backgroundImage: driver.headshotUrl != null && driver.headshotUrl!.isNotEmpty
+                    ? NetworkImage(driver.headshotUrl!)
+                    : const AssetImage('assets/images/Logo_tr.png') as ImageProvider,
+              ),
             ),
-          ),
-      
-          Text(
-            driver.nameAcronym,
-            style: TextStyle(
-              color: Color(int.parse('FF${driver.teamColour}', radix: 16)),
-              fontSize: 12,
+            Text(
+              driver.nameAcronym,
+              style: TextStyle(
+                color: Color(int.parse('FF${driver.teamColour}', radix: 16)),
+                fontSize: 12,
+              ),
             ),
-          ),
-        ],
-      );
-        }
-        ),
+          ],
+        );
+      },
     ),
-
-
-
-    Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Column(
-        children: [
-          Container(
-
-                  
-            
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(15.0),
-                  height: 200,
-                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                   image: NetworkImage(news[1].urlImg),
-                   colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
-                ),
+  ),
 ),
 
-            child: Column(
-              children: [
-                Text(
-                  news[1].title.toUpperCase(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  news[1].description,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            )
 
+
+
+Padding(
+  padding: const EdgeInsets.all(10.0),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ElevatedButton.icon(
           
-                  
-                  
+          onPressed: () {}, 
+          
+          icon: Icon(Icons.arrow_forward, color: const Color.fromARGB(255, 228, 66, 66)),
+          label: Text('Full Standings', style: TextStyle(color: Colors.white)),
+          
           ),
-        ],
+      ),
+  
+  Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ElevatedButton(
+          
+          onPressed: () {}, 
+         
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(150, 189, 48, 48),
+            
+          ),
+         child: Text('Predict your race', style: TextStyle(color: Colors.white)),
+          
+          ),
+     
+      ),
+    ],
+  ),
+),
+
+    
+
+   
+   Padding(
+     padding: const EdgeInsets.all(15.0),
+     child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+     
+       children: [
+        
+             Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color.fromARGB(255, 27, 21, 21), 
+                ),
+                    height: 100,
+                    width: 180,
+),
+
+       ],
+     ),
+
+ 
+
+
+   ),
+
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+      child: Column(
+       
+       children: [
+        Container(
+          
+            
+             height: 160,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              image: DecorationImage(
+                image: NetworkImage(news[0].urlImg),
+                   
+                fit: BoxFit.cover,
+              ),
+              
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                  color: Colors.black.withOpacity(0.5), 
+                ),
+                
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                         
+                          Text(
+                            'BREAKING NEWS',
+                            
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 94, 93, 93),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            news[0].title.toUpperCase(),
+                            textAlign: TextAlign.left,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              
+              
+              ),
+              
+
+             
+        ),
+        Container(
+            height: 150,
+
+           decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
+              color: const Color.fromARGB(255, 61, 61, 61), 
+              ),
+
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    news[0].description,
+                    textAlign: TextAlign.left,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 168, 168, 168),
+                      fontSize: 14,
+                    ),
+                  ),
+                  Spacer(),
+                ElevatedButton(
+                  
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(150, 189, 48, 48),
+          
+        ),
+        child: Padding(
+         
+          padding: const EdgeInsets.all(10.0),
+          child: Center(child: Text('Read full story', style: TextStyle(color: Colors.white))),
+        ),
+        onPressed: () {
+           setState(() {
+          'Read full article at: ${news[0].source}';
+            });
+          },
+      ),
+                ],
+              ),
+            ),
+        ),
+       ],
+        
       ),
     ),
   ],
 ),
+
+
 
    
 
