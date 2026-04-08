@@ -91,6 +91,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  gradient_generator:
+    dependency: "direct main"
+    description:
+      name: gradient_generator
+      sha256: aecbb17c0cb90f0f888665b7fa6f9b0dc88f6fdc888a6f436a23cd0d1aaf9d2f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   http_parser:
     dependency: transitive
     description:
