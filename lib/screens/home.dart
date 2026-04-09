@@ -153,7 +153,7 @@ GradientContainer(
           
           onPressed: () {}, 
           
-          icon: Icon(Icons.arrow_forward, color: const Color.fromARGB(255, 228, 66, 66)),
+          icon: Icon(Icons.arrow_forward_ios_rounded, color: const Color.fromARGB(255, 228, 66, 66)),
           label: Text('Full Standings', style: TextStyle(color: Colors.white)),
           
           ),
@@ -171,7 +171,7 @@ InkWell(
     );
   },
   borderRadius: BorderRadius.circular(10),
-  child: Padding(  // ← TADY ZAČÍNÁ TVŮJ PŮVODNÍ KÓD
+  child: Padding(  
     padding: const EdgeInsets.all(15.0),
     child: Column(
       children: [
@@ -365,11 +365,11 @@ InkWell(
             
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.ice_skating),
+            icon: Icon(Icons.date_range),
             label: '', 
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.ice_skating),
+            icon: Icon(Icons.brightness_1_rounded),
             label: '', 
           ),
         ],
