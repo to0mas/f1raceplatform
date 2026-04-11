@@ -43,7 +43,7 @@ class _F1rpSimState extends State<F1rpSim> {
               child: Icon(
                 Icons.arrow_back_ios_rounded,
                 color: Colors.white,
-                size: 25,
+                size: 26,
               ),
               backgroundColor: const Color.fromARGB(148, 88, 89, 90),
             ),
