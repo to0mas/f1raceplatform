@@ -48,7 +48,7 @@ void loadData() async {
       
        appBar: AppBar(
       
- automaticallyImplyLeading: false, 
+
     backgroundColor: const Color.fromARGB(150, 197, 11, 11),
 
     title: Padding(
