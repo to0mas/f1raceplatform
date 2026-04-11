@@ -87,7 +87,7 @@ bool isLoading = true;
                 Text(
                   races[0].date?.toString().split(' ')[0] ?? 'TBD',
                   style: TextStyle(
-                    color: const Color.fromARGB(179, 255, 255, 255),
+                  color: Color(0xFFFFD700),
                     fontSize: 14,
                   ),
                 ),
