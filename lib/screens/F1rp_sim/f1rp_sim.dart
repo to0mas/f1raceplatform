@@ -20,7 +20,7 @@ class _F1rpSimState extends State<F1rpSim> {
        Container(
   decoration: BoxDecoration(
     image: DecorationImage(
-      image: AssetImage('assets/images/lewis.png'),
+      image: AssetImage('assets/images/sim.png'),
       fit: BoxFit.cover,
     ),
   ),

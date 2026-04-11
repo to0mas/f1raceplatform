@@ -7,7 +7,6 @@ final ThemeData appTheme = ThemeData(
 
   scaffoldBackgroundColor: Color(0xFF0B0B0D),//scaffold pozadí
 
-
   colorScheme: const ColorScheme.dark(
     primary: Color(0xFFE10600),
     secondary: Color(0xFFFFD700),
@@ -15,7 +14,13 @@ final ThemeData appTheme = ThemeData(
   ),
 
   textTheme: const TextTheme(
-    bodyMedium: TextStyle(color: Colors.white),
-    bodySmall: TextStyle(color: Color(0xFF888888)),
+    bodyMedium: TextStyle(
+      color: Colors.white,
+      fontFamily: 'BebasNeue',
+    ),
+    bodySmall: TextStyle(
+      color: Color(0xFF888888),
+      fontFamily: 'Poppins',
+    ),
   ),
 );

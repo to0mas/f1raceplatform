@@ -5,6 +5,7 @@ import 'package:f1raceplatform/models/driver.dart';
 import 'package:f1raceplatform/models/driver_standing.dart';
 import 'package:f1raceplatform/models/news.dart';
 import 'package:f1raceplatform/screens/F1rp_sim/f1rp_sim.dart';
+import 'package:f1raceplatform/screens/standings.dart';
 import 'package:flutter/material.dart';
 import 'package:f1raceplatform/theme/theme_data.dart';
 import 'package:gradient_generator/gradient_generator.dart';
@@ -41,13 +42,25 @@ void initState() {
       drivers.sort((a,b){
        final aStanding = driverStandings.firstWhere(
         (s) => s.driverCode == a.nameAcronym,
-        orElse: () => DriverStanding(driverCode: a.nameAcronym, position: 9999),
+        orElse: () => DriverStanding(
+           driverCode: a.nameAcronym,
+            position: 9999,
+            points: 0,
+            wins: 0,
+            givenName: '',
+            familyName: '',
+        ),
        );
 
        final bStanding = driverStandings.firstWhere(
 
         (s) => s.driverCode == b.nameAcronym,
-        orElse: () => DriverStanding(driverCode: b.nameAcronym, position: 9999),
+        orElse: () => DriverStanding( driverCode: a.nameAcronym,
+            position: 9999,
+            points: 0,
+            wins: 0,
+            givenName: '',
+            familyName: '',),
 
        );
        return aStanding.position.compareTo(bStanding.position);
@@ -63,9 +76,10 @@ void initState() {
 
 
      appBar: AppBar(
-
+      
+ automaticallyImplyLeading: false, 
     backgroundColor: const Color.fromARGB(150, 197, 11, 11),
-		foregroundColor: Colors.white,
+
     title: Padding(
       padding: const EdgeInsets.all(15.0),
       child: Row(
@@ -107,7 +121,7 @@ GradientContainer(
     angle: -360,
   ),
   child: SizedBox(
-    height: 100,
+    height: 120,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: drivers.length,
@@ -130,7 +144,7 @@ GradientContainer(
               driver.nameAcronym,
               style: TextStyle(
                 color: Color(int.parse('FF${driver.teamColour}', radix: 16)),
-                fontSize: 12,
+                fontSize: 15,
               ),
             ),
           ],
@@ -143,25 +157,38 @@ GradientContainer(
 
 
 
-  
-  Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ElevatedButton.icon(
-          
-          onPressed: () {}, 
-          
-          icon: Icon(Icons.arrow_forward_ios_rounded, color: const Color.fromARGB(255, 228, 66, 66)),
-          label: Text('Full Standings', style: TextStyle(color: Colors.white)),
-          
-          ),
+  Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 2.0),
+  child: SizedBox(
+    width: double.infinity,
+    child: ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Standings()),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromARGB(150, 189, 48, 48),
+        elevation: 5,
+        shadowColor: const Color.fromARGB(255, 189, 48, 48),
       ),
-  
-  
-    ],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.arrow_forward_ios_rounded, color: Colors.white),
+          SizedBox(width: 10),
+          Text(
+            'Full Standings',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ],
+      ),
+    ),
   ),
+),
+
+
 
 InkWell(
   onTap: () {
@@ -359,7 +386,7 @@ InkWell(
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home,
-            color: Color(0xFFE10600),
+            
             ),
             label: '', 
             
