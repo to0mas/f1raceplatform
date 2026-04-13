@@ -13,12 +13,9 @@ class RacesCall {
       
       return data.map((raceJson) => Race.fromJson(raceJson)).toList();
     } 
-    on DioException catch (e) {
-      print('Dio Error: ${e.message}');
-      return [];
-    } 
+   
     catch (e) {
-      print('Unexpected error: $e');
+    
       return [];
     }
   }

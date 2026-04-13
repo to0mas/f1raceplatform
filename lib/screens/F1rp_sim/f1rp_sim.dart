@@ -1,7 +1,7 @@
 import 'package:f1raceplatform/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
-
+import 'dart:ui';
 class F1rpSim extends StatefulWidget {
   const F1rpSim({super.key});
 
@@ -55,9 +55,9 @@ class _F1rpSimState extends State<F1rpSim> {
     Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(15.0),
         child: Container(
-          height: 250,
+          height: 280,
           width: double.infinity,
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 39, 39, 39),
@@ -67,7 +67,7 @@ class _F1rpSimState extends State<F1rpSim> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Text(
                   'BECOME A RACING ENGINEER',
                   style: TextStyle(
@@ -79,7 +79,7 @@ class _F1rpSimState extends State<F1rpSim> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
-                  'Make race-winning decisions',
+                  'MAKE A RACE WINNIG DECISION',
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
@@ -91,23 +91,64 @@ class _F1rpSimState extends State<F1rpSim> {
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 7, 7),
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: Text(
-                      'Start Simulation',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 212, 86, 86).withOpacity(0.2), // glass efekt
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: const Color.fromARGB(255, 206, 6, 6).withOpacity(0.1),
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
+            style: TextButton.styleFrom(
+            
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                
+                SizedBox(width: 15),
+                Text(
+                  'START NOW',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 18,
                   ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+          ),
                 ),
               ),
             ],
