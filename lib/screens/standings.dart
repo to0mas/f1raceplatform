@@ -22,6 +22,46 @@ bool isLoading = true;
 void initState(){
   super.initState();
   loadData();
+
+  Future.wait([
+   
+    DriverCall().getDrivers(),
+    DriverStandingsCall().getDriverStandings(),
+     NewsCall().getNews(),
+  ]).then((results) {
+    setState(() {
+      drivers = results[0] as List<Driver>;
+      driverStandings = results[1] as List<DriverStanding>;
+      news = results[2] as List<News>;
+
+      drivers.sort((a,b){
+       final aStanding = driverStandings.firstWhere(
+        (s) => s.driverCode == a.nameAcronym,
+        orElse: () => DriverStanding(
+           driverCode: a.nameAcronym,
+            position: 9999,
+            points: 0,
+            wins: 0,
+            givenName: '',
+            familyName: '',
+        ),
+       );
+
+       final bStanding = driverStandings.firstWhere(
+
+        (s) => s.driverCode == b.nameAcronym,
+        orElse: () => DriverStanding( driverCode: a.nameAcronym,
+            position: 9999,
+            points: 0,
+            wins: 0,
+            givenName: '',
+            familyName: '',),
+
+       );
+       return aStanding.position.compareTo(bStanding.position);
+      
+    });
+  });
 }
 
 void loadData() async {
