@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:f1raceplatform/api_calls/driver_call.dart';
 import 'package:f1raceplatform/api_calls/driver_standings_call.dart';
 import 'package:f1raceplatform/api_calls/news_call.dart';
@@ -77,34 +79,41 @@ void initState() {
     return Scaffold(
 
 
-     appBar: AppBar(
-      
- automaticallyImplyLeading: false, 
-    backgroundColor: const Color.fromARGB(150, 197, 11, 11),
 
-    title: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-      
-       
-        Center(
-          child: Image.asset(
-            'assets/images/Logo_tr_cerna.png',
-            height: 50,
-            width: 45,
+
+appBar: AppBar(
+  backgroundColor: Colors.transparent,
+  elevation: 0,
+  automaticallyImplyLeading: false,
+
+  flexibleSpace: ClipRRect(
+    child: BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 197, 11, 11).withOpacity(0.15),
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(0.1),
+              width: 1,
+            ),
           ),
         ),
-      
-      
-      
-       
-      ],
-      
       ),
-    ),   
-     ),
+    ),
+  ),
+
+  title: Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: Center(
+      child: Image.asset(
+        'assets/images/Logo_tr_cerna.png',
+        height: 50,
+        width: 45,
+      ),
+    ),
+  ),
+),
 
 
 body: SingleChildScrollView(
@@ -119,7 +128,7 @@ body: SingleChildScrollView(
 
 GradientContainer(
   gradient: GradientX.linear(
-    colors: [const Color.fromARGB(150, 197, 11, 11), Color(Color.fromARGB(255, 0, 0, 0).value)],
+    colors: [const Color.fromARGB(82, 197, 11, 11), Color(Color.fromARGB(255, 0, 0, 0).value)],
     angle: -360,
   ),
   child: SizedBox(
@@ -159,32 +168,50 @@ GradientContainer(
 
 
 
-  Padding(
+Padding(
   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 2.0),
   child: SizedBox(
     width: double.infinity,
-    child: ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Standings()),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0x94BD3030),
-        elevation: 5,
-        shadowColor: const Color.fromARGB(255, 189, 48, 48),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.arrow_forward_ios_rounded, color: Colors.white),
-          SizedBox(width: 10),
-          Text(
-            'Full Standings',
-            style: TextStyle(color: Colors.white, fontSize: 18),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(15),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Standings()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0x94BD3030).withOpacity(0.3),
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+              side: BorderSide(
+                color: Colors.white.withOpacity(0.2),
+                width: 1.5,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 16),
           ),
-        ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.flag_sharp, color: Colors.white),
+              SizedBox(width: 10),
+              Text(
+                'Full Standings',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     ),
   ),
@@ -192,60 +219,97 @@ GradientContainer(
 
 SizedBox(height: 20),
 
-InkWell(
-  onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => F1rpSim()),
-    );
-  },
-  borderRadius: BorderRadius.circular(10),
-  child: Padding(  
-    padding: const EdgeInsets.all(15.0),
-    child: Column(
-      children: [
-        Container(
-          height: 200,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-            ),
-            image: DecorationImage(
-              image: Image.asset('assets/images/podium-mclarens-boys-defeated.jpg').image,
-              fit: BoxFit.cover,
-            ),
+Padding(  
+  padding: const EdgeInsets.all(15.0),
+  child: Column(
+    children: [
+      Container(
+        height: 280,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color.fromARGB(90, 8, 1, 0),
+            width: 2.5,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/Logo_tr.png',
-                height: 80,
-                width: 80,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'SIMULATOR',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+          borderRadius: BorderRadius.circular(15.0),
+          image: DecorationImage(
+            image: Image.asset('assets/images/podium-mclarens-boys-defeated.jpg').image,
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/Logo_tr.png',
+                  height: 100,
+                  width: 100,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    'SIMULATOR',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.7),
+                          blurRadius: 8,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => F1rpSim()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(150, 197, 11, 11).withOpacity(0.5),
+                    elevation: 0,
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Colors.white.withOpacity(0.2),
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    'ENTER SIMULATOR',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
-    ),
+      ),
+    ],
   ),
 ),
-
 
 
 
@@ -257,130 +321,7 @@ SizedBox(height: 40),
 
 
 
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-      child: Column(
-       
-       children: [
-        Container(
-          
-            
-             height: 160,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-              image: DecorationImage(
-                image: NetworkImage(news[0].urlImg),
-                   
-                fit: BoxFit.cover,
-              ),
-              
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                  color: Colors.black.withOpacity(0.5), 
-                ),
-                
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                         
-                          Text(
-                            'BREAKING NEWS',
-                            
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: const Color.fromARGB(255, 255, 0, 0),
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            news[0].title.toUpperCase(),
-                            textAlign: TextAlign.left,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              
-              
-              ),
-              
-
-             
-        ),
-        Container(
-            height: 150,
-
-           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-              color: const Color.fromARGB(255, 61, 61, 61), 
-              ),
-
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    news[0].description,
-                    textAlign: TextAlign.left,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 168, 168, 168),
-                      fontSize: 14,
-                    ),
-                  ),
-                  Spacer(),
-                ElevatedButton(
-                  
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(150, 189, 48, 48),
-          
-        ),
-        child: Padding(
-         
-          padding: const EdgeInsets.all(10.0),
-          child: Center(child: Text('Read full story', style: TextStyle(color: Colors.white))),
-        ),
-        onPressed: () {
-           setState(() {
-          'Read full article at: ${news[0].source}';
-            });
-          },
-      ),
-                ],
-              ),
-            ),
-        ),
-       ],
-        
-      ),
-    ),
+    
   ],
   ),
 ),
