@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:f1raceplatform/api_calls/driver_call.dart';
 import 'package:f1raceplatform/api_calls/driver_standings_call.dart';
 import 'package:f1raceplatform/api_calls/news_call.dart';
@@ -8,12 +10,10 @@ import 'package:f1raceplatform/screens/F1rp_sim/f1rp_sim.dart';
 import 'package:f1raceplatform/screens/standings.dart';
 import 'package:f1raceplatform/widgets/race_card.dart';
 import 'package:flutter/material.dart';
-import 'package:f1raceplatform/api_calls/races_call.dart';
+import 'package:f1raceplatform/theme/theme_data.dart';
+import 'package:gradient_generator/gradient_generator.dart';
 import 'package:f1raceplatform/models/races.dart';
 
-import 'package:gradient_generator/gradient_generator.dart';
-
-import 'dart:ui';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -26,8 +26,6 @@ class _HomePageState extends State<HomePage> {
 List<Driver> drivers = [];
 List<DriverStanding> driverStandings = [];
 List<News> news = [];
-
-  get races => null;
 
 
 @override
@@ -81,23 +79,23 @@ void initState() {
     return Scaffold(
 
 
+
+
 appBar: AppBar(
-  automaticallyImplyLeading: false,
   backgroundColor: Colors.transparent,
   elevation: 0,
+  automaticallyImplyLeading: false,
 
-  flexibleSpace: Padding(
-    padding: const EdgeInsets.all(1.0),
-    child: ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(111, 167, 51, 51).withOpacity(0.2), // glass efekt
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.2),
-              ),
+  flexibleSpace: ClipRRect(
+    child: BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 197, 11, 11).withOpacity(0.15),
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(0.1),
+              width: 1,
             ),
           ),
         ),
@@ -106,7 +104,7 @@ appBar: AppBar(
   ),
 
   title: Padding(
-    padding: const EdgeInsets.all(10.0),
+    padding: const EdgeInsets.all(15.0),
     child: Center(
       child: Image.asset(
         'assets/images/Logo_tr_cerna.png',
@@ -116,6 +114,7 @@ appBar: AppBar(
     ),
   ),
 ),
+
 
 body: SingleChildScrollView(
   child: Column(
@@ -129,7 +128,7 @@ body: SingleChildScrollView(
 
 GradientContainer(
   gradient: GradientX.linear(
-    colors: [const Color.fromARGB(15, 197, 11, 11), Color(Color.fromARGB(255, 0, 0, 0).value)],
+    colors: [const Color.fromARGB(82, 197, 11, 11), Color(Color.fromARGB(255, 0, 0, 0).value)],
     angle: -360,
   ),
   child: SizedBox(
@@ -143,7 +142,7 @@ GradientContainer(
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(10.0),
               child: CircleAvatar(
                 radius: 30,
                 backgroundColor: Color(int.parse('FF${driver.teamColour}', radix: 16)),
@@ -168,53 +167,49 @@ GradientContainer(
 
 
 
+
 Padding(
   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 2.0),
   child: SizedBox(
     width: double.infinity,
     child: ClipRRect(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(15),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 212, 86, 86).withOpacity(0.1), // glass efekt
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: const Color.fromARGB(255, 212, 86, 86).withOpacity(0.1),
-            ),
-          ),
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Standings()),
-              );
-            },
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Standings()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0x94BD3030).withOpacity(0.3),
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+              side: BorderSide(
+                color: Colors.white.withOpacity(0.2),
+                width: 1.5,
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
+            padding: EdgeInsets.symmetric(vertical: 16),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.flag_sharp, color: Colors.white),
+              SizedBox(width: 10),
+              Text(
+                'Full Standings',
+                style: TextStyle(
                   color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                 ),
-                SizedBox(width: 15),
-                Text(
-                  'Full Standings',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -222,72 +217,110 @@ Padding(
   ),
 ),
 
-SizedBox(height: 15),
+SizedBox(height: 20),
 
-InkWell(
-  onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => F1rpSim()),
-    );
-  },
-  borderRadius: BorderRadius.circular(16),
-  child: Padding(  
-    padding: const EdgeInsets.all(15.0),
-    child: Column(
-      children: [
-        Container(
-          height: 200,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-              
-
-
-            
-               border: Border.all(
-              color: const Color.fromARGB(178, 212, 86, 86),
-            ),
-            image: DecorationImage(
-              image: Image.asset('assets/images/podium-mclarens-boys-defeated.jpg').image,
-              fit: BoxFit.cover,
-            ),
+Padding(  
+  padding: const EdgeInsets.all(15.0),
+  child: Column(
+    children: [
+      Container(
+        height: 280,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color.fromARGB(90, 8, 1, 0),
+            width: 2.5,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/Logo_tr.png',
-                height: 80,
-                width: 80,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'SIMULATOR',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+          borderRadius: BorderRadius.circular(15.0),
+          image: DecorationImage(
+            image: Image.asset('assets/images/podium-mclarens-boys-defeated.jpg').image,
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/Logo_tr.png',
+                  height: 100,
+                  width: 100,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    'SIMULATOR',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.7),
+                          blurRadius: 8,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => F1rpSim()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(150, 197, 11, 11).withOpacity(0.5),
+                    elevation: 0,
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Colors.white.withOpacity(0.2),
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    'ENTER SIMULATOR',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
-    ),
+      ),
+    ],
   ),
 ),
 
 
 
 
-
-SizedBox(height:20),
+SizedBox(height: 40),
   RaceCard(),
 
 
+
+
+
     
   ],
   ),
@@ -298,37 +331,29 @@ SizedBox(height:20),
    
 
 
-   
+     backgroundColor: appTheme.scaffoldBackgroundColor,
       bottomNavigationBar: BottomNavigationBar(
-  type: BottomNavigationBarType.shifting,
-  backgroundColor: const Color.fromARGB(255, 218, 10, 10),
-  showSelectedLabels: false,
+        backgroundColor: Color(Color(0xFF1A1A1A).value),
+        showSelectedLabels: false,
   showUnselectedLabels: false,
-  items: const [
-    BottomNavigationBarItem(
-      icon: Icon(Icons.home),
-      label: '',
-      backgroundColor: Color.fromARGB(242, 189, 48, 48),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.date_range),
-      label: '',
-      
-    ),
-   
-    BottomNavigationBarItem(
-      icon: Icon(Icons.brightness_1_rounded),
-      label: '',
-    
-      
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.brightness_1_rounded),
-      label: '',
-  
-    ),
-  ],
-),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home,
+            
+            ),
+            label: '', 
+            
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.date_range),
+            label: '', 
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.brightness_1_rounded),
+            label: '', 
+          ),
+        ],
+      ),
     );
   }
 }
