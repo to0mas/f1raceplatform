@@ -1,8 +1,69 @@
 import 'package:f1raceplatform/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gradient_generator/gradient_generator.dart';
+import 'package:f1raceplatform/theme/theme_data.dart';
+/*
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin{
+  @override
+  void initState(){
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    Future.delayed(const Duration(seconds: 5), (){
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const HomePage())
+      );
+    });
+  }
+
+
+  void dispose(){
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: appTheme.scaffoldBackgroundColor,
+        body: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+
+
+
+
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/Logo_tr.png',
+                    height: 250,
+                    width: 250,
+                  ),
+                ),
+              ),
+              Image.asset(
+                'assets/images/logo_sign.png',
+                height: 200,
+                width: 200,
+              ),
+            ],
+          ),
+
+        )
+    );
+  }
+}
+*/
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,21 +74,37 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _progressAnimation;
 
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    Future.delayed(const Duration(seconds: 5), () {
-      if (!mounted) return;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomePage()),
-      );
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    );
+
+    _progressAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _controller.forward();
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+      }
     });
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
       overlays: SystemUiOverlay.values,
@@ -38,35 +115,63 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
-      body: GradientContainer(
-  gradient: GradientX.radial(
-     colors: [const Color.fromARGB(150, 197, 11, 11), Color(Color.fromARGB(255, 0, 0, 0).value)],
-      radius: 1.0,
-  ),
-  child: SizedBox(
-    width: double.infinity,
-    height: double.infinity,
-    child: Column(
-      children: [
-        Expanded(
-          child: Center(
-            child: Image.asset(
-              'assets/images/Logo_tr.png',
-              height: 250,
-              width: 250,
+      backgroundColor: appTheme.scaffoldBackgroundColor,
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: Image.asset(
+                  'assets/images/Logo_tr.png',
+                  height: 250,
+                  width: 250,
+                ),
+              ),
             ),
-          ),
+            Image.asset(
+              'assets/images/logo_sign.png',
+              height: 200,
+              width: 200,
+            ),
+            const SizedBox(height: 40),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: AnimatedBuilder(
+                animation: _progressAnimation,
+                builder: (context, child) {
+                  return Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: LinearProgressIndicator(
+                          value: _progressAnimation.value,
+                          minHeight: 6,
+                          backgroundColor: Colors.white24,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Color(0xFFE8002D),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        '${(_progressAnimation.value * 100).toInt()}%',
+                        style: const TextStyle(
+                          color: Colors.white54,
+                          fontSize: 12,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 50),
+          ],
         ),
-        Image.asset(
-          'assets/images/logo_sign.png',
-          height: 200,
-          width: 200,
-        ),
-      ],
-    ),
-  ),
-),
+      ),
     );
   }
 }
