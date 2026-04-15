@@ -36,13 +36,24 @@ class _RaceCardState extends State<RaceCard> {
 
   @override
   Widget build(BuildContext context) {
-   
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (races.isEmpty) {
+      return const Center(
+        child: Text("No races found"),
+      );
+    }
+
+    final race = races[0];
 
     return Column(
       children: [
-     
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Container(
             height: 180,
             width: double.infinity,
@@ -54,7 +65,7 @@ class _RaceCardState extends State<RaceCard> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +80,7 @@ class _RaceCardState extends State<RaceCard> {
                     ),
                   ),
                   Text(
-                    races[0].raceName.toUpperCase(),
+                    race.raceName.toUpperCase(),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -84,9 +95,9 @@ class _RaceCardState extends State<RaceCard> {
                           color: Colors.white, size: 16),
                       const SizedBox(width: 8),
                       Text(
-                        races[0].date?.toString().split(' ')[0] ?? 'TBD',
+                        race.date?.toString().split(' ')[0] ?? 'TBD',
                         style: const TextStyle(
-                          color: Color.fromARGB(179, 255, 255, 255),
+                          color: Colors.white70,
                           fontSize: 14,
                         ),
                       ),
@@ -98,9 +109,8 @@ class _RaceCardState extends State<RaceCard> {
           ),
         ),
 
-     
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15),
           child: Container(
             height: 120,
             width: double.infinity,
@@ -108,7 +118,7 @@ class _RaceCardState extends State<RaceCard> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: const Color.fromARGB(255, 255, 0, 0).withOpacity(0.15),
+                  color: Colors.red.withOpacity(0.15),
                   blurRadius: 20,
                   spreadRadius: 1,
                 ),
@@ -116,67 +126,57 @@ class _RaceCardState extends State<RaceCard> {
             ),
             child: Row(
               children: [
-<<<<<<< HEAD
-                Icon(Icons.calendar_today, color: Colors.white, size: 16),
-                SizedBox(width: 8),
-                Text(
-                  races[0].date?.toString().split(' ')[0] ?? 'TBD',
-                  style: TextStyle(
-                  color: Color(0xFFFFD700),
-                    fontSize: 14,
-=======
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color:
-                          const Color.fromARGB(255, 255, 0, 0).withOpacity(0.25),
+                      color: Colors.red.withOpacity(0.25),
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         color: Colors.red.withOpacity(0.4),
                       ),
                     ),
                     child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              races[0].laps.toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                
-                              ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            race.laps.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              'LAPS',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'LAPS',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-
-                const SizedBox(width: 8),
-
                 Expanded(
                   child: Container(
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.08),
+                      ),
+                    ),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            races[0].corners.toString(),
+                            race.corners.toString(),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 30,
@@ -189,22 +189,11 @@ class _RaceCardState extends State<RaceCard> {
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ],
-
                       ),
                     ),
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.4),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.08),
-                      ),
-                    ),
->>>>>>> trbranch
                   ),
                 ),
               ],

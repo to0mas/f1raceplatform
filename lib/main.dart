@@ -1,5 +1,6 @@
 
 import 'package:f1raceplatform/models/schedule.dart';
+import 'package:f1raceplatform/screens/home.dart';
 import 'package:f1raceplatform/screens/schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:f1raceplatform/theme/theme_data.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: appTheme,
-      home: SchedulePage(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

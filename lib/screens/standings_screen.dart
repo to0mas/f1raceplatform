@@ -12,133 +12,104 @@ class Standings extends StatefulWidget {
 }
 
 class _StandingsState extends State<Standings> {
- 
+  List<DriverStanding> driverStandings = [];
+  List<Driver> drivers = [];
+  bool isLoading = true;
 
-List<DriverStanding> driverStandings = [];
-List<Driver> drivers = [];
-bool isLoading = true;
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
 
-@override
-void initState(){
-  super.initState();
-  loadData();
+  Future<void> loadData() async {
+    try {
+      final results = await Future.wait([
+        DriverCall().getDrivers(),
+        DriverStandingsCall().getDriverStandings(),
+      ]);
 
-  Future.wait([
-   
-    DriverCall().getDrivers(),
-    DriverStandingsCall().getDriverStandings(),
-     NewsCall().getNews(),
-  ]).then((results) {
-    setState(() {
       drivers = results[0] as List<Driver>;
       driverStandings = results[1] as List<DriverStanding>;
-      news = results[2] as List<News>;
 
-      drivers.sort((a,b){
-       final aStanding = driverStandings.firstWhere(
-        (s) => s.driverCode == a.nameAcronym,
-        orElse: () => DriverStanding(
-           driverCode: a.nameAcronym,
+      drivers.sort((a, b) {
+        final aStanding = driverStandings.firstWhere(
+          (s) => s.driverCode == a.nameAcronym,
+          orElse: () => DriverStanding(
+            driverCode: a.nameAcronym,
             position: 9999,
             points: 0,
             wins: 0,
             givenName: '',
             familyName: '',
-        ),
-       );
+          ),
+        );
 
-       final bStanding = driverStandings.firstWhere(
-
-        (s) => s.driverCode == b.nameAcronym,
-        orElse: () => DriverStanding( driverCode: a.nameAcronym,
+        final bStanding = driverStandings.firstWhere(
+          (s) => s.driverCode == b.nameAcronym,
+          orElse: () => DriverStanding(
+            driverCode: b.nameAcronym,
             position: 9999,
             points: 0,
             wins: 0,
             givenName: '',
-            familyName: '',),
+            familyName: '',
+          ),
+        );
 
-       );
-       return aStanding.position.compareTo(bStanding.position);
-      
-    });
-  });
-}
+        return aStanding.position.compareTo(bStanding.position);
+      });
 
-void loadData() async {
-  try {
-    final driversResult = await DriverCall().getDrivers();
-    final standingsResult = await DriverStandingsCall().getDriverStandings();
-
-    setState(() {
-      drivers = driversResult;
-      driverStandings = standingsResult;
-      isLoading = false;
-    });
-  } catch (e) {
-    print('Error: $e');
-    setState(() {
-      isLoading = false;
-    });
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
-}
 
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-       appBar: AppBar(
-      
-
-    backgroundColor: const Color.fromARGB(150, 197, 11, 11),
-
-    title: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-      
-       
-        Center(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(150, 197, 11, 11),
+        title: Center(
           child: Image.asset(
             'assets/images/Logo_tr_cerna.png',
             height: 50,
             width: 45,
           ),
         ),
-      
-      
-      
-       
-      ],
-      
       ),
-    ),   
-     ),
 
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : const Center(
+              child: Text(
+                "Standings loaded",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
 
-
-
-
-
-    bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(Color(0xFF1A1A1A).value),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF1A1A1A),
         showSelectedLabels: false,
-  showUnselectedLabels: false,
+        showUnselectedLabels: false,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,
-          
-            ),
-            label: '', 
-            
+            icon: Icon(Icons.home),
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.date_range),
-            label: '', 
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.brightness_1_rounded),
-            label: '', 
+            label: '',
           ),
         ],
       ),
