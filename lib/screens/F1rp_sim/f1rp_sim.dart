@@ -1,4 +1,4 @@
-import 'package:f1raceplatform/screens/home.dart';
+import 'package:f1raceplatform/screens/F1rp_sim/sim_setup.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -29,18 +29,28 @@ class _F1rpSimState extends State<F1rpSim> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomePage()),
-                      );
+                      Navigator.pop(context);
                     },
-                    child: CircleAvatar(
-                      radius: 24,
-                      backgroundColor: const Color(0xFFE10600).withOpacity(0.6),
-                      child: const Icon(
-                        Icons.arrow_back_ios_rounded,
-                        color: Colors.white,
-                        size: 26,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back_ios_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -52,34 +62,26 @@ class _F1rpSimState extends State<F1rpSim> {
 
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Container(
-                height: 280,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1A1A1A),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: const Color(0xFFE10600).withOpacity(0.3),
-                    width: 2,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFFE10600).withOpacity(0.15),
-                      blurRadius: 20,
-                      offset: const Offset(0, 8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.45),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.15),
+                        width: 1.5,
+                      ),
                     ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Column(
+                    child: Padding(
+                      padding: const EdgeInsets.all(25.0),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'BECOME A RACING ENGINEER',
                             style: TextStyle(
                               fontSize: 12,
@@ -88,49 +90,55 @@ class _F1rpSimState extends State<F1rpSim> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 16),
-                          Text(
+                          const SizedBox(height: 12),
+                          const Text(
                             'MAKE THE BEST\nTEAM DECISION',
                             style: TextStyle(
-                              fontSize: 36,
+                              fontSize: 34,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               height: 1.1,
                             ),
                           ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Choose your driver, circuit and tyre strategy',
+                            style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const SimSetup()),
+                              );  
+                                },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFE10600),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                'START SIMULATION',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  letterSpacing: 1.5,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomePage(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFE10600),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: const Text(
-                            'START SIMULATION',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
