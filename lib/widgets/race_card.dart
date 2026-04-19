@@ -116,15 +116,6 @@ class _RaceCardState extends State<RaceCard> {
             ),
             child: Row(
               children: [
-<<<<<<< HEAD
-                Icon(Icons.calendar_today, color: Colors.white, size: 16),
-                SizedBox(width: 8),
-                Text(
-                  races[0].date?.toString().split(' ')[0] ?? 'TBD',
-                  style: TextStyle(
-                  color: Color(0xFFFFD700),
-                    fontSize: 14,
-=======
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.all(10),
@@ -204,7 +195,6 @@ class _RaceCardState extends State<RaceCard> {
                         color: Colors.white.withOpacity(0.08),
                       ),
                     ),
->>>>>>> trbranch
                   ),
                 ),
               ],

@@ -1,18 +1,6 @@
 import 'dart:ui';
 
-import 'package:f1raceplatform/api_calls/driver_call.dart';
-import 'package:f1raceplatform/api_calls/driver_standings_call.dart';
-import 'package:f1raceplatform/api_calls/news_call.dart';
-import 'package:f1raceplatform/models/driver.dart';
-import 'package:f1raceplatform/models/driver_standing.dart';
-import 'package:f1raceplatform/models/news.dart';
-import 'package:f1raceplatform/screens/F1rp_sim/f1rp_sim.dart';
-import 'package:f1raceplatform/screens/standings.dart';
-import 'package:f1raceplatform/widgets/race_card.dart';
 import 'package:flutter/material.dart';
-import 'package:f1raceplatform/theme/theme_data.dart';
-import 'package:gradient_generator/gradient_generator.dart';
-import 'package:f1raceplatform/models/races.dart';
 
 class News extends StatefulWidget {
   const News({super.key});
