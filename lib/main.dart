@@ -1,4 +1,3 @@
-
 import 'package:f1raceplatform/models/schedule.dart';
 import 'package:f1raceplatform/screens/home.dart';
 import 'package:f1raceplatform/screens/schedule_screen.dart';

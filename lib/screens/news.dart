@@ -1,8 +1,5 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
-import 'package:f1raceplatform/screens/F1rp_sim/f1rp_sim.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
@@ -34,9 +31,9 @@ class _NewsScreenState extends State<NewsScreen> {
             ),
           ),
         ),
-        title: Center(
-          child: Image.asset(
-            'assets/images/Logo_tr_cerna.png',
+        title: const Center(
+          child: Image(
+            image: AssetImage('assets/images/Logo_tr_cerna.png'),
             height: 50,
             width: 45,
           ),
