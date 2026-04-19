@@ -17,7 +17,7 @@ final List data = response.data['articles'];
 return data.map((newsJson) => News.fromJson(newsJson)).toList();
 }
 catch (e) {
-   print('News error: $e');
+  
   return [];
 }
 
