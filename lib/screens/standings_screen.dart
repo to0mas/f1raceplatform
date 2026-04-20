@@ -44,11 +44,15 @@ class _StandingsScreenState extends State<StandingsScreen> {
     return Scaffold(
       
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(150, 197, 11, 11),
-        title: const Text("Standings"),
-        centerTitle: true,
-      ),
+    appBar: AppBar(
+  backgroundColor: const Color.fromARGB(150, 197, 11, 11),
+  title: Image.asset(
+    'assets/images/Logo_tr_cerna.png',
+    height: 50,
+    width: 45,
+  ),
+  centerTitle: true,
+),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(

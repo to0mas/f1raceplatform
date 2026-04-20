@@ -33,7 +33,7 @@ class DatabaseService {
   final String _driverIdForeignKey = 'driver_id'; // foreign key to drivers table
   final String _grandPrixIdForeignKey = 'grandprix_id'; // foreign key to grand prix table
   final String _lapTime = 'lap_time'; // lap time column
-  final String _DNF = 'dnf'; // did not finish column (boolean)
+  final String _totalTime = 'total_time';
 
 
 
@@ -82,6 +82,7 @@ class DatabaseService {
       $_driverIdForeignKey INTEGER,
       $_grandPrixIdForeignKey INTEGER,
       $_lapTime REAL,
+      $_totalTime REAL,
       FOREIGN KEY ($_driverIdForeignKey) REFERENCES $_driverTable($_driverId),
       FOREIGN KEY ($_grandPrixIdForeignKey) REFERENCES $_grandprixTable($_grandPrixId)
     )
@@ -160,26 +161,31 @@ await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 1, 
   _grandPrixIdForeignKey: 1, 
   _lapTime: 95.900,
+  _totalTime: 5476.3,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 2, 
   _grandPrixIdForeignKey: 1, 
   _lapTime: 96.050,
+   _totalTime: 5479.85,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 3, 
   _grandPrixIdForeignKey: 1, 
   _lapTime: 96.200,
+  _totalTime: 5483.4,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 4, 
   _grandPrixIdForeignKey: 1, 
   _lapTime: 96.350,
+  _totalTime: 5486.95,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 5, 
   _grandPrixIdForeignKey: 1, 
   _lapTime: 96.650,
+  _totalTime: 5502.05,
 });
 
 
@@ -187,26 +193,31 @@ await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 1, 
   _grandPrixIdForeignKey: 2, 
   _lapTime: 85.100,
+  _totalTime: 4935.8,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 2, 
   _grandPrixIdForeignKey: 2, 
   _lapTime: 85.250,
+  _totalTime: 4944.5,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 3, 
   _grandPrixIdForeignKey: 2, 
   _lapTime: 85.400,
+  _totalTime: 4953.2,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 4, 
   _grandPrixIdForeignKey: 2, 
   _lapTime: 85.550,
+  _totalTime: 4961.9,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 5, 
   _grandPrixIdForeignKey: 2, 
   _lapTime: 85.850,
+  _totalTime: 4974.3,
 });
 
 
@@ -215,26 +226,31 @@ await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 1, 
   _grandPrixIdForeignKey: 3, 
   _lapTime: 95.750,
+  _totalTime: 5074.75,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 2, 
   _grandPrixIdForeignKey: 3, 
   _lapTime: 95.900,
+  _totalTime: 5078.7,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 3, 
   _grandPrixIdForeignKey: 3, 
   _lapTime: 96.050,
+  _totalTime: 5082.65,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 4, 
   _grandPrixIdForeignKey: 3, 
   _lapTime: 96.200,
+  _totalTime: 5086.6,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 5, 
   _grandPrixIdForeignKey: 3, 
   _lapTime: 96.500,
+  _totalTime: 5104.5,
 });
 
 
@@ -242,26 +258,31 @@ await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 1, 
   _grandPrixIdForeignKey: 4, 
   _lapTime: 94.200,
+  _totalTime: 4898.4,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 2, 
   _grandPrixIdForeignKey: 4, 
   _lapTime: 94.350,
+  _totalTime: 4902.2,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 3, 
   _grandPrixIdForeignKey: 4, 
   _lapTime: 94.500,
+  _totalTime: 4906.0,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 4, 
   _grandPrixIdForeignKey: 4, 
   _lapTime: 94.650,
+  _totalTime: 4909.8,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 5, 
   _grandPrixIdForeignKey: 4, 
   _lapTime: 94.950,
+  _totalTime: 4927.4,
 });
 
 
@@ -269,26 +290,31 @@ await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 1, 
   _grandPrixIdForeignKey: 5, 
   _lapTime: 85.900,
+   _totalTime: 4540.7,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 2, 
   _grandPrixIdForeignKey: 5, 
   _lapTime: 86.050,
+   _totalTime: 4551.65,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 3, 
   _grandPrixIdForeignKey: 5, 
   _lapTime: 86.200,
+   _totalTime: 4562.6,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 4, 
   _grandPrixIdForeignKey: 5, 
   _lapTime: 86.350,
+   _totalTime: 4573.55,
 });
 await db.insert(_driversPerformanceTable, {
   _driverIdForeignKey: 5, 
   _grandPrixIdForeignKey: 5, 
   _lapTime: 86.650,
+   _totalTime: 4593.45,
 });
 },
     );

@@ -60,55 +60,70 @@ class _RaceCardState extends State<RaceCard> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: const DecorationImage(
-                image: AssetImage('assets/images/race.jpeg.png'),
+                image: NetworkImage('https://images.ctfassets.net/gy95mqeyjg28/5JNOmfnCQtENFZ17zbJv87/2064c97ebcd975946cbd0ee02064ae46/GP2406_152034_V6A3454.jpg?w=3840&q=75&fm=webp&fit=fill'),
                 fit: BoxFit.cover,
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'NEXT RACE',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                    ),
+            child: Stack(
+              children: [
+                
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(255, 179, 55, 51).withOpacity(0.5),
                   ),
-                  Text(
-                    race.raceName.toUpperCase(),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
+                ),
+                
+                // OBSAH
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.calendar_today,
-                          color: Colors.white, size: 16),
-                      const SizedBox(width: 8),
-                      Text(
-                        race.date?.toString().split(' ')[0] ?? 'TBD',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
+                      const Text(
+                        'NEXT RACE',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
                         ),
                       ),
+                      
+                      Text(
+                        race.raceName.toUpperCase(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_today,
+                              color: Colors.white, size: 16),
+                          const SizedBox(width: 8),
+                          Text(
+                            race.date?.toString().split(' ')[0] ?? 'TBD',
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                          ),
+                          
+                        ],
+                      ),
+                      
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
-
         Padding(
           padding: const EdgeInsets.all(15),
           child: Container(
@@ -116,13 +131,7 @@ class _RaceCardState extends State<RaceCard> {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.red.withOpacity(0.15),
-                  blurRadius: 20,
-                  spreadRadius: 1,
-                ),
-              ],
+              
             ),
             child: Row(
               children: [
@@ -130,11 +139,19 @@ class _RaceCardState extends State<RaceCard> {
                   child: Container(
                     margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.25),
+                      
+                      color: const Color.fromARGB(255, 179, 55, 51).withOpacity(0.5),
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: Colors.red.withOpacity(0.4),
+                        color: const Color.fromARGB(255, 179, 55, 51).withOpacity(0.5),
                       ),
+                      boxShadow: [
+                BoxShadow(
+                  color: const Color.fromARGB(24, 179, 55, 51).withOpacity(0.6),
+                  blurRadius: 20,
+                  spreadRadius:2,
+                ),
+              ],
                     ),
                     child: Center(
                       child: Column(

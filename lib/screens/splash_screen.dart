@@ -2,7 +2,7 @@ import 'package:f1raceplatform/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:f1raceplatform/theme/theme_data.dart';
-
+import 'package:flutter_animate/flutter_animate.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,39 +11,42 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _progressAnimation;
+class _SplashScreenState extends State<SplashScreen> {
+  double progress = 0;
 
   @override
   void initState() {
     super.initState();
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 5),
-    );
+    // fake loading progress
+    Future.delayed(const Duration(milliseconds: 200), _startLoading);
+  }
 
-    _progressAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+  void _startLoading() {
+    Future.doWhile(() async {
+      await Future.delayed(const Duration(milliseconds: 80));
 
-    _controller.forward();
+      if (!mounted) return false;
 
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomePage()),
-        );
-      }
+      setState(() {
+        progress += 0.02;
+        if (progress > 1) progress = 1;
+      });
+
+      return progress < 1;
+    }).then((_) {
+      if (!mounted) return;
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const HomePage()),
+      );
     });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
       overlays: SystemUiOverlay.values,
@@ -60,53 +63,78 @@ class _SplashScreenState extends State<SplashScreen>
         height: double.infinity,
         child: Column(
           children: [
-            Expanded(
-              child: Center(
-                child: Image.asset(
-                  'assets/images/Logo_tr.png',
-                  height: 250,
-                  width: 250,
-                ),
-              ),
-            ),
+            const Spacer(),
+
+        
+            Image.asset(
+              'assets/images/Logo_tr.png',
+              height: 250,
+              width: 250,
+            )
+               .animate()
+    .fadeIn(duration: 200.ms)
+    .scale(
+      begin: const Offset(0.0, 0.0),
+      end: const Offset(1, 1),
+      curve: Curves.elasticOut,
+      duration: 800.ms,
+    ),
+
+            const SizedBox(height: 30),
+
             Image.asset(
               'assets/images/logo_sign.png',
               height: 200,
               width: 200,
-            ),
-            const SizedBox(height: 40),
+            )
+                .animate()
+                .fadeIn(delay: 200.ms, duration: 600.ms)
+                .slide(begin: const Offset(0, 0.3))
+                .scale(
+                  begin: const Offset(0.7, 0.7),
+                  end: const Offset(1, 1),
+                  curve: Curves.easeOut,
+                  duration: 600.ms,
+                ),
+
+            const Spacer(),
+
+           
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
-              child: AnimatedBuilder(
-                animation: _progressAnimation,
-                builder: (context, child) {
-                  return Column(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: LinearProgressIndicator(
-                          value: _progressAnimation.value,
-                          minHeight: 6,
-                          backgroundColor: Colors.white24,
-                          valueColor: const AlwaysStoppedAnimation<Color>(
-                            Color(0xFFE8002D),
-                          ),
-                        ),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 6,
+                      backgroundColor: Colors.white24,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFFE8002D),
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${(_progressAnimation.value * 100).toInt()}%',
-                        style: const TextStyle(
-                          color: Colors.white54,
-                          fontSize: 12,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                    ],
-                  );
-                },
+                    ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 600.ms)
+                      .slideY(begin: 0.3),
+
+                  const SizedBox(height: 10),
+
+                  Text(
+                    '${(progress * 100).toInt()}%',
+                    style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 12,
+                      letterSpacing: 1.5,
+                    ),
+                  )
+                      .animate()
+                      .fadeIn(delay: 300.ms),
+                ],
               ),
             ),
+
             const SizedBox(height: 50),
           ],
         ),
