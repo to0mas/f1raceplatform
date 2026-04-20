@@ -333,28 +333,49 @@ SizedBox(height: 40),
 
 
      backgroundColor: appTheme.scaffoldBackgroundColor,
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(Color(0xFF1A1A1A).value),
+bottomNavigationBar: Container(
+  decoration: BoxDecoration(
+    border: Border(
+      top: BorderSide(
+        color: Colors.white.withOpacity(0.1),
+        width: 1,
+      ),
+    ),
+  ),
+  child: ClipRRect(
+    child: BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+      child: BottomNavigationBar(
+        backgroundColor: const Color(0xFF1A1A1A).withOpacity(0.4),
+        elevation: 0,
         showSelectedLabels: false,
-  showUnselectedLabels: false,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: const Color.fromARGB(255, 179, 55, 51),
+        unselectedItemColor: Colors.white.withOpacity(0.4),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,
-            
-            ),
-            label: '', 
-            
+            icon: Icon(Icons.home, size: 28),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.date_range),
-            label: '', 
+            icon: Icon(Icons.date_range, size: 28),
+            label: 'Calendar',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.brightness_1_rounded),
-            label: '', 
+            icon: Icon(Icons.newspaper, size: 28),
+            label: 'News',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.trending_up, size: 28),
+            label: 'Standings',
+          ),
+        
         ],
       ),
+    ),
+  ),
+)
     );
   }
 }
