@@ -70,69 +70,6 @@ class _SimSetupState extends State<SimSetup> {
     });
   }
 
-  // ==================== HELPER PRO NAČÍTÁNÍ OBRÁZKŮ ====================
-  Widget _buildNetworkImage(
-    String url, {
-    double? width,
-    double? height,
-    BoxFit fit = BoxFit.cover,
-  }) {
-    if (url.isEmpty) {
-      return _buildErrorImage(width, height);
-    }
-
-    return Image.network(
-      url,
-      width: width,
-      height: height,
-      fit: fit,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        }
-        return Container(
-          width: width,
-          height: height,
-          color: Colors.grey.shade900,
-          child: const Center(
-            child: CircularProgressIndicator(
-              color: Color.fromARGB(255, 179, 55, 51),
-              strokeWidth: 3,
-            ),
-          ),
-        );
-      },
-      errorBuilder: (context, error, stackTrace) {
-        return _buildErrorImage(width, height);
-      },
-    );
-  }
-
-  Widget _buildErrorImage(double? width, double? height) {
-    return Container(
-      width: width,
-      height: height ?? 110,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade900,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.broken_image_rounded, color: Colors.white54, size: 40),
-          const SizedBox(height: 8),
-          Text(
-            'Image unavailable',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.6),
-              fontSize: 12,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   bool canGoNext() {
     switch (currenStep) {
       case 0:
@@ -144,12 +81,7 @@ class _SimSetupState extends State<SimSetup> {
       case 3:
         if (pitStops == 0) return true;
         if (pitStops == 1) return pitLaps[0] != null && pitTireNames[0] != null;
-        if (pitStops == 2) {
-          return pitLaps[0] != null &&
-              pitTireNames[0] != null &&
-              pitLaps[1] != null &&
-              pitTireNames[1] != null;
-        }
+        if (pitStops == 2) return pitLaps[0] != null && pitTireNames[0] != null && pitLaps[1] != null && pitTireNames[1] != null;
         return false;
       default:
         return false;
@@ -202,7 +134,6 @@ class _SimSetupState extends State<SimSetup> {
     );
   }
 
-  // ==================== STINT SELECTION ====================
   Widget _buildStintSelection() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -220,6 +151,7 @@ class _SimSetupState extends State<SimSetup> {
           ),
           const SizedBox(height: 16),
 
+          // Výběr počtu pit stopů
           const Text(
             'Number of pit stops',
             style: TextStyle(color: Colors.white70, fontSize: 16),
@@ -267,6 +199,7 @@ class _SimSetupState extends State<SimSetup> {
 
           const SizedBox(height: 24),
 
+         
           for (int i = 0; i < pitStops; i++) ...[
             Text(
               'Pit stop ${i + 1}',
@@ -278,6 +211,7 @@ class _SimSetupState extends State<SimSetup> {
             ),
             const SizedBox(height: 8),
 
+            // Výběr kola
             Text(
               'Lap: ${pitLaps[i] ?? '-'}',
               style: const TextStyle(color: Colors.white70, fontSize: 16),
@@ -298,11 +232,12 @@ class _SimSetupState extends State<SimSetup> {
 
             const SizedBox(height: 8),
 
+          
             const Text(
               'Tyre after pit stop',
               style: TextStyle(color: Colors.white70, fontSize: 15),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(2.0),
               child: Wrap(
@@ -312,31 +247,28 @@ class _SimSetupState extends State<SimSetup> {
                   final isSelected = pitTireNames[i] == name;
                   return GestureDetector(
                     onTap: () => setState(() => pitTireNames[i] = name),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 20,
-                        ),
-                        decoration: BoxDecoration(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? const Color.fromARGB(255, 179, 55, 51)
+                            : Colors.grey.shade900,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
                           color: isSelected
                               ? const Color.fromARGB(255, 179, 55, 51)
-                              : Colors.grey.shade900,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: isSelected
-                                ? const Color.fromARGB(255, 179, 55, 51)
-                                : Colors.white24,
-                          ),
+                              : Colors.white24,
                         ),
-                        child: Text(
-                          name,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      ),
+                      child: Text(
+                        name,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -351,7 +283,6 @@ class _SimSetupState extends State<SimSetup> {
     );
   }
 
- 
   Widget _buildStartSelection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,7 +306,8 @@ class _SimSetupState extends State<SimSetup> {
               final tyre = tireList[index];
               final name = tyre['tire_compound']?.toString() ?? '';
               final degradation = tyre['degradation']?.toString() ?? '';
-              final isSelected = selectedStart != null &&
+              final isSelected =
+                  selectedStart != null &&
                   selectedStart!['tire_compound'] == tyre['tire_compound'];
 
               return GestureDetector(
@@ -393,7 +325,7 @@ class _SimSetupState extends State<SimSetup> {
                     child: Row(
                       children: [
                         const SizedBox(width: 12),
-                        _buildNetworkImage(
+                        Image.network(
                           gpTyres[name] ?? '',
                           width: 60,
                           height: 60,
@@ -451,7 +383,8 @@ class _SimSetupState extends State<SimSetup> {
             itemCount: driverList.length,
             itemBuilder: (context, index) {
               final driver = driverList[index];
-              final isSelected = selectedDriver != null &&
+              final isSelected =
+                  selectedDriver != null &&
                   selectedDriver!['driver_first_name'] == driver['driver_first_name'];
 
               return GestureDetector(
@@ -477,7 +410,7 @@ class _SimSetupState extends State<SimSetup> {
                       borderRadius: BorderRadius.circular(12),
                       child: Stack(
                         children: [
-                          _buildNetworkImage(
+                          Image.network(
                             gpDrivers[driver['driver_first_name']] ?? '',
                             width: double.infinity,
                             height: 110,
@@ -546,7 +479,8 @@ class _SimSetupState extends State<SimSetup> {
             itemCount: grandPrixList.length,
             itemBuilder: (context, index) {
               final gp = grandPrixList[index];
-              final isSelected = selectedGP != null &&
+              final isSelected =
+                  selectedGP != null &&
                   selectedGP!['grandprix_name'] == gp['grandprix_name'];
 
               return GestureDetector(
@@ -572,7 +506,7 @@ class _SimSetupState extends State<SimSetup> {
                       borderRadius: BorderRadius.circular(12),
                       child: Stack(
                         children: [
-                          _buildNetworkImage(
+                          Image.network(
                             gpImages[gp['grandprix_name']] ?? '',
                             width: double.infinity,
                             height: 110,
@@ -647,105 +581,111 @@ class _SimSetupState extends State<SimSetup> {
   }
 
   Widget _buildBottomBar() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: ClipRRect(
+  return Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: Row(
+      children: [
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
+                ),
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text(
+                    'HOME',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    if (currenStep > 0) {
+                      setState(() => currenStep--);
+                    }
+                  },
+                  child: const Text(
+                    'PREVIOUS',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(width: 10),
+
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 179, 55, 51),
               borderRadius: BorderRadius.circular(12),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white.withOpacity(0.2)),
-                  ),
-                  child: TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'HOME',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            child: TextButton(
+              onPressed: () {
+                if (currenStep < 3 && canGoNext()) {
+                  setState(() => currenStep++);
+                } else if (currenStep == 3 && canGoNext()) {
+final strategy = RaceStrategy(
+  gp: selectedGP!,
+  driver: selectedDriver!,
+
+ 
+  gpId: selectedGP!['id'],
+  driverId: selectedDriver!['id'],
+
+  startTyre: selectedStart!['tire_compound'],
+  pitStops: pitStops,
+  pitLaps: pitLaps.whereType<int>().toList(),
+  pitTyres: pitTireNames.whereType<String>().toList(),
+  tires: tireList,
+);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => FinalResult(strategy: strategy),
                     ),
-                  ),
+                  );
+                }
+              },
+
+              child: Text(
+                currenStep == 3 ? 'SIMULATE' : 'NEXT',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 10),
-
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white.withOpacity(0.2)),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      if (currenStep > 0) {
-                        setState(() => currenStep--);
-                      }
-                    },
-                    child: const Text(
-                      'PREVIOUS',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(width: 10),
-
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 179, 55, 51),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  if (currenStep < 3 && canGoNext()) {
-                    setState(() => currenStep++);
-                  } else if (currenStep == 3 && canGoNext()) {
-                    final strategy = RaceStrategy(
-                      gp: selectedGP!,
-                      driver: selectedDriver!,
-                      startTyre: selectedStart!['tire_compound'],
-                      pitStops: pitStops,
-                      pitLaps: pitLaps.whereType<int>().toList(),
-                      pitTyres: pitTireNames.whereType<String>().toList(),
-                      tires: tireList,
-                    );
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => FinalResult(strategy: strategy),
-                      ),
-                    );
-                  }
-                },
-                child: Text(
-                  currenStep == 3 ? 'SIMULATE' : 'NEXT',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }

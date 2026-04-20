@@ -321,4 +321,6 @@ await db.insert(_driversPerformanceTable, {
 
     return _database!; 
   }
+
+  Future<Object?> getTotalTime(Map<String, dynamic> driver, Map<String, dynamic> gp) async {}
 }

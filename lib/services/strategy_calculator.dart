@@ -1,16 +1,10 @@
 class RaceDataPrep {
-
-
   static int getTotalLaps(Map<String, dynamic> gp) {
     return gp['laps'] as int;
   }
 
-  static String getStartTyre(Map<String, dynamic> startTyre) {
-    return startTyre['tire_compound'] as String;
-  }
-
   static List<int> cleanPitLaps(List<int?> laps) {
-    return laps.whereType<int>().toList()..sort();
+    return laps.whereType<int>().toList();
   }
 
   static List<String> cleanPitTyres(List<String?> tyres) {
@@ -18,6 +12,7 @@ class RaceDataPrep {
   }
 
   static double getBaseLapTime(Map<String, dynamic> gp) {
+    // ⚠️ pokud nemáš v DB base_lap_time, fallback je nutný
     return (gp['base_lap_time'] ?? 82.08).toDouble();
   }
 
@@ -27,10 +22,10 @@ class RaceDataPrep {
   ) {
     final tyre = tires.firstWhere(
       (t) => t['tire_compound'] == compound,
-      orElse: () => {'degradation': 0},
+      orElse: () => {'degradation': 0.15},
     );
 
-    return (tyre['degradation'] ?? 0).toDouble();
+    return (tyre['degradation'] ?? 0.15).toDouble();
   }
 
   static double calculateStint({
@@ -40,7 +35,7 @@ class RaceDataPrep {
   }) {
     double total = 0;
 
-    for (int i = 1; i <= laps; i++) {
+    for (int i = 0; i < laps; i++) {
       total += baseLapTime + (i * degradation);
     }
 
@@ -49,50 +44,87 @@ class RaceDataPrep {
 
   static const double avgPitLossTime = 22.0;
 
-  static double calculateRaceTime({
-    required Map<String, dynamic> gp, // bere data z db
+  static List<Map<String, dynamic>> calculateBreakdown({
+    required Map<String, dynamic> gp,
     required List<Map<String, dynamic>> tires,
     required String startCompound,
     required List<String?> pitTyres,
     required List<int?> pitLaps,
   }) {
-    final baseLapTime = getBaseLapTime(gp); // vezme základní čas kola GP
-    final totalLaps = getTotalLaps(gp); // počet kol závodu
-
-    double totalTime = 0; // tady se ukládá celkový čas
-
-    String currentTyre = startCompound; // startovní guma
-    int previousLap = 0; // odkud začíná stint
+    final baseLapTime = getBaseLapTime(gp);
+    final totalLaps = getTotalLaps(gp);
 
     final cleanLaps = cleanPitLaps(pitLaps);
-    final cleanTyres = cleanPitTyres(pitTyres); // odstraní null hodnoty
+    final cleanTyres = cleanPitTyres(pitTyres);
 
-    // projíždí celý závod + pitstopy
-    for (int i = 0; i <= cleanLaps.length; i++) {
-      final endLap =
+    final int stintCount =
+        cleanLaps.length < cleanTyres.length
+            ? cleanLaps.length
+            : cleanTyres.length;
+
+    List<Map<String, dynamic>> result = [];
+
+    String currentTyre = startCompound;
+    int previousLap = 0;
+
+    for (int i = 0; i < stintCount + 1; i++) {
+      final int endLap =
           (i < cleanLaps.length) ? cleanLaps[i] : totalLaps;
 
-      final stintLaps = endLap - previousLap;
+      final int stintLaps = endLap - previousLap;
 
-      final degradation = getDegradation(tires, currentTyre); // finalní degradace
+      if (stintLaps <= 0) continue;
 
-      totalTime += calculateStint(
-        baseLapTime: baseLapTime, // první
-        degradation: degradation, // druhé
-        laps: stintLaps, // průměr
+      final degradation = getDegradation(tires, currentTyre);
+
+      final stintTime = calculateStint(
+        baseLapTime: baseLapTime,
+        degradation: degradation,
+        laps: stintLaps,
       );
 
-      if (i < cleanLaps.length) {
-        totalTime += avgPitLossTime;
+      result.add({
+        'stint': i + 1,
+        'tyre': currentTyre,
+        'laps': stintLaps,
+        'time': stintTime,
+      });
 
-        if (i < cleanTyres.length) {
-          currentTyre = cleanTyres[i];
-        }
+      if (i < cleanTyres.length) {
+        currentTyre = cleanTyres[i];
+      }
 
-        previousLap = endLap;
+      previousLap = endLap;
+    }
+
+    return result;
+  }
+
+  static double calculateRaceTime({
+    required Map<String, dynamic> gp,
+    required List<Map<String, dynamic>> tires,
+    required String startCompound,
+    required List<String?> pitTyres,
+    required List<int?> pitLaps,
+  }) {
+    final breakdown = calculateBreakdown(
+      gp: gp,
+      tires: tires,
+      startCompound: startCompound,
+      pitTyres: pitTyres,
+      pitLaps: pitLaps,
+    );
+
+    double total = 0;
+
+    for (int i = 0; i < breakdown.length; i++) {
+      total += (breakdown[i]['time'] as double);
+
+      if (i != breakdown.length - 1) {
+        total += avgPitLossTime;
       }
     }
 
-    return totalTime;
+    return total;
   }
 }

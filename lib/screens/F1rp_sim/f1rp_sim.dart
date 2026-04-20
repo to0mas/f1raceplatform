@@ -80,8 +80,8 @@ class _F1rpSimState extends State<F1rpSim> {
                       padding: const EdgeInsets.all(25.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             'BECOME A RACING ENGINEER',
                             style: TextStyle(
                               fontSize: 12,
@@ -90,8 +90,8 @@ class _F1rpSimState extends State<F1rpSim> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const SizedBox(height: 12),
-                          const Text(
+                          SizedBox(height: 12),
+                          Text(
                             'MAKE THE BEST\nTEAM DECISION',
                             style: TextStyle(
                               fontSize: 34,
@@ -100,44 +100,49 @@ class _F1rpSimState extends State<F1rpSim> {
                               height: 1.1,
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          const Text(
+                          SizedBox(height: 8),
+                          Text(
                             'Choose your driver, circuit and tyre strategy',
                             style: TextStyle(
                               color: Colors.white54,
                               fontSize: 13,
                             ),
                           ),
-                          const SizedBox(height: 24),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const SimSetup()),
-                              );  
-                                },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:const Color.fromARGB(255, 179, 55, 51),
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: const Text(
-                                'START SIMULATION',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  letterSpacing: 1.5,
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>  SimSetup(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 179, 55, 51),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'START SIMULATION',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      letterSpacing: 1.5,
                     ),
                   ),
                 ),
