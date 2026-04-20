@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     // fake loading progress
-    Future.delayed(const Duration(milliseconds: 200), _startLoading);
+    Future.delayed(const Duration(milliseconds: 500), _startLoading);
   }
 
   void _startLoading() {
