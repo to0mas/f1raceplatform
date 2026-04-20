@@ -14,6 +14,6 @@ class RaceStrategy {
     required this.pitStops,
     required this.pitLaps,
     required this.pitTyres,
-    required this.tires,
+    required this.tires, 
   });
 }
