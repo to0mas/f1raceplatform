@@ -43,7 +43,12 @@ class _StandingsScreenState extends State<StandingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       
-   
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(150, 197, 11, 11),
+        title: const Text("Standings"),
+        centerTitle: true,
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
