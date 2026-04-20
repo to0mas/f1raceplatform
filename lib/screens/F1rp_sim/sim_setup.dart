@@ -657,7 +657,7 @@ class _SimSetupState extends State<SimSetup> {
   pitStops: pitStops,
   pitLaps: pitLaps.whereType<int>().toList(),
   pitTyres: pitTireNames.whereType<String>().toList(),
-  tires: tireList, // 🔥 TOHLE CHYBĚLO
+  tires: tireList, 
 );
 
                   Navigator.push(
