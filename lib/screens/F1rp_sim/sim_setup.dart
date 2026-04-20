@@ -651,13 +651,14 @@ class _SimSetupState extends State<SimSetup> {
                 } else if (currenStep == 3 && canGoNext()) {
 
                   final strategy = RaceStrategy(
-                    gp: selectedGP!,
-                    driver: selectedDriver!,
-                    startTyre: selectedStart!['tire_compound'],
-                    pitStops: pitStops,
-                    pitLaps: pitLaps.whereType<int>().toList(),
-                    pitTyres: pitTireNames.whereType<String>().toList(),
-                  );
+  gp: selectedGP!,
+  driver: selectedDriver!,
+  startTyre: selectedStart!['tire_compound'],
+  pitStops: pitStops,
+  pitLaps: pitLaps.whereType<int>().toList(),
+  pitTyres: pitTireNames.whereType<String>().toList(),
+  tires: tireList, // 🔥 TOHLE CHYBĚLO
+);
 
                   Navigator.push(
                     context,

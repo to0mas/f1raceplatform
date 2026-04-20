@@ -1,7 +1,5 @@
 class RaceDataPrep {
-  // -------------------------
-  // DATA PREPARATION
-  // -------------------------
+
 
   static int getTotalLaps(Map<String, dynamic> gp) {
     return gp['laps'] as int;
