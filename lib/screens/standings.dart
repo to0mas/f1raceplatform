@@ -42,7 +42,6 @@ class _StandingsScreenState extends State<StandingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(150, 197, 11, 11),
@@ -53,9 +52,7 @@ class _StandingsScreenState extends State<StandingsScreen> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-
                 const SizedBox(height: 20),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -72,10 +69,7 @@ class _StandingsScreenState extends State<StandingsScreen> {
                     }),
                   ],
                 ),
-
                 const SizedBox(height: 20),
-                
-
                 Expanded(
                   child: ListView.builder(
                     itemCount: showDrivers
@@ -96,7 +90,6 @@ class _StandingsScreenState extends State<StandingsScreen> {
   }
 
   Widget driverCard(DriverStanding d, int index) {
-
     Driver? driver;
 
     try {
@@ -107,8 +100,7 @@ class _StandingsScreenState extends State<StandingsScreen> {
       driver = null;
     }
 
-    ImageProvider image =
-        const AssetImage("assets/images/Logo_tr.png");
+    ImageProvider image = const AssetImage("assets/images/Logo_tr.png");
 
     if (driver != null &&
         driver.headshotUrl != null &&
@@ -116,10 +108,12 @@ class _StandingsScreenState extends State<StandingsScreen> {
       image = NetworkImage(driver.headshotUrl!);
     }
 
+    final String subtitle = driver?.nameAcronym ?? d.driverCode;
+
     return buildCard(
       index + 1,
       "${d.givenName} ${d.familyName}",
-      d.driverCode,
+      subtitle,
       d.points.toString(),
       image,
     );
@@ -136,49 +130,38 @@ class _StandingsScreenState extends State<StandingsScreen> {
   }
 
   ImageProvider getTeamLogo(String teamName, String teamCode) {
-
     String value = (teamName + teamCode).toLowerCase();
 
     if (value.contains("mercedes")) {
       return const AssetImage("assets/images/mercedes.png");
     }
-
     if (value.contains("ferrari")) {
       return const AssetImage("assets/images/ferrari.png");
     }
-
     if (value.contains("mclaren")) {
       return const AssetImage("assets/images/mclaren.png");
     }
-
     if (value.contains("haas")) {
       return const AssetImage("assets/images/haas.png");
     }
-
     if (value.contains("alpine")) {
       return const AssetImage("assets/images/alpine.png");
     }
-
     if (value.contains("red_bull")) {
       return const AssetImage("assets/images/redbull.png");
     }
-
     if (value.contains("rb")) {
       return const AssetImage("assets/images/rb.png");
     }
-
     if (value.contains("audi")) {
       return const AssetImage("assets/images/audi.png");
     }
-
     if (value.contains("williams")) {
       return const AssetImage("assets/images/williams.png");
     }
-
     if (value.contains("cadillac")) {
       return const AssetImage("assets/images/cadillac.png");
     }
-
     if (value.contains("aston_martin")) {
       return const AssetImage("assets/images/aston.png");
     }
@@ -221,8 +204,16 @@ class _StandingsScreenState extends State<StandingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(color: Colors.white)),
+                Text(title,
+                    style: const TextStyle(color: Colors.white, fontSize: 16)),
                 const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.7),
+                    fontSize: 13,
+                  ),
+                ),
               ],
             ),
           ),
@@ -231,6 +222,7 @@ class _StandingsScreenState extends State<StandingsScreen> {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
           ),
         ],
