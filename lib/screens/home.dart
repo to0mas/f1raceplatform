@@ -163,10 +163,6 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.newspaper, size: 28),
                   label: 'News',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.trending_up, size: 28),
-                  label: 'Standings',
-                ),
               ],
             ),
           ),
