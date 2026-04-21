@@ -28,7 +28,7 @@ class Driver {
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) {
-    // 🔥 tvoje "fake databáze"
+
     const Map<String, Map<String, int>> driverStats = {
       "VER": {"podiums": 100, "debut": 2015, "wins": 60, "worldChampionship": 3},
       "HAM": {"podiums": 200, "debut": 2007, "wins": 105, "worldChampionship": 7},
@@ -65,6 +65,6 @@ class Driver {
     );
   }
 
-  // 🔥 helper (bonus – bude se hodit do UI)
+  
   String get fullName => "$firstName $lastName";
 }
