@@ -21,7 +21,7 @@ dependencies:
   intl: ^0.19.0
 
   fl_chart: ^0.68.0
-a752267d2ec8e238c6355d1ae1110b9bb6237198
+
 
 dev_dependencies:
   flutter_test:

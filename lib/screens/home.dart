@@ -10,7 +10,7 @@ import 'package:f1raceplatform/screens/F1rp_sim/f1rp_sim.dart';
 import 'package:f1raceplatform/screens/news.dart';
 import 'package:f1raceplatform/screens/schedule_screen.dart';
 import 'package:f1raceplatform/screens/standings.dart';
-import 'package:f1raceplatform/widgets/f1_weather_card.dart';
+
 import 'package:f1raceplatform/widgets/race_card.dart';
 import 'package:flutter/material.dart';
 import 'package:f1raceplatform/theme/theme_data.dart';
@@ -368,13 +368,7 @@ class HomeContent extends StatelessWidget {
 
           SizedBox(height: 40),
           RaceCard(),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: F1WeatherCard(apiKey: '00488f65a339d7ecf4c890cf8c5d6f5e'),
-          ),
-          SizedBox(height: 20),
-
+         
         ],
       ),
     );
