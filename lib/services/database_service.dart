@@ -2,45 +2,13 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
-  static final DatabaseService instance = DatabaseService._privateConstructor();
+  static final DatabaseService instance =
+      DatabaseService._privateConstructor();
   static Database? _database;
-
-
-// Grand Prix table constants
-  final String _grandprixTable = 'grandprix'; // table name
-  final String _grandPrixId = 'id'; // id column
-  final String _grandPrixName = 'grandprix_name'; // name column
-  final String _grandPrixLaps = 'laps'; // laps column
-
-
-// Driver table constants
-  final String _driverTable = 'drivers'; // table name
-  final String _driverId = 'id'; // id column
-  final String _driverFirstName = 'driver_first_name'; // first name column
-  final String _driverLastName = 'driver_last_name'; // last name column
-
-
-  // Tires table constants
-  final String _tiresTable = 'tires'; // table name
-  final String _tireId = 'id'; // id column
-  final String _tireCompound = 'tire_compound'; // tire compound column
-  final String _degradation = 'degradation'; // tire degradation column
-
-
-  // Drivers perdormance table constants
-  final String _driversPerformanceTable = 'drivers_performance'; // table name
-  final String _performanceId = 'id'; // id column
-  final String _driverIdForeignKey = 'driver_id'; // foreign key to drivers table
-  final String _grandPrixIdForeignKey = 'grandprix_id'; // foreign key to grand prix table
-  final String _lapTime = 'lap_time'; // lap time column
-  final String _totalTime = 'total_time';
-
-
 
   DatabaseService._privateConstructor();
 
   Future<Database> getDatabase() async {
-
     if (_database != null) return _database!;
 
     final databaseDirPath = await getDatabasesPath();
@@ -48,277 +16,204 @@ class DatabaseService {
 
     _database = await openDatabase(
       databasePath,
-      version: 1, 
-     onCreate: (db, version) async {
-  await db.execute('''
-    CREATE TABLE $_grandprixTable(
-      $_grandPrixId INTEGER PRIMARY KEY AUTOINCREMENT,
-      $_grandPrixName TEXT,
-      $_grandPrixLaps INTEGER
-    )
-  ''');
+      version: 1,
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE grandprix(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            grandprix_name TEXT UNIQUE NOT NULL,
+            laps INTEGER NOT NULL,
+            base_lap_time REAL DEFAULT 80.0
+          )
+        ''');
 
-  
-  
-  await db.execute('''
-    CREATE TABLE $_driverTable(
-      $_driverId INTEGER PRIMARY KEY AUTOINCREMENT,
-      $_driverFirstName TEXT,
-      $_driverLastName TEXT
-    )
-  ''');
-  
-  await db.execute('''
-    CREATE TABLE $_tiresTable(
-      $_tireId INTEGER PRIMARY KEY AUTOINCREMENT,
-      $_tireCompound TEXT,
-      $_degradation REAL
-    )
-  ''');
-  
-  await db.execute('''
-    CREATE TABLE $_driversPerformanceTable(
-      $_performanceId INTEGER PRIMARY KEY AUTOINCREMENT,
-      $_driverIdForeignKey INTEGER,
-      $_grandPrixIdForeignKey INTEGER,
-      $_lapTime REAL,
-      $_totalTime REAL,
-      FOREIGN KEY ($_driverIdForeignKey) REFERENCES $_driverTable($_driverId),
-      FOREIGN KEY ($_grandPrixIdForeignKey) REFERENCES $_grandprixTable($_grandPrixId)
-    )
-  ''');
+        await db.execute('''
+          CREATE TABLE drivers(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            driver_first_name TEXT NOT NULL,
+            driver_last_name TEXT NOT NULL,
+            team TEXT
+          )
+        ''');
 
-//gp
-  await db.insert(_grandprixTable, { 
-    _grandPrixName: 'Bahrain Grand Prix',
-    _grandPrixLaps: 57,
-  });
-    await db.insert(_grandprixTable, {
-    _grandPrixName: 'Australian Grand Prix',
-    _grandPrixLaps: 58,
-  });
+        await db.execute('''
+          CREATE TABLE tires(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tire_compound TEXT UNIQUE NOT NULL,
+            degradation REAL NOT NULL
+          )
+        ''');
 
-     await db.insert(_grandprixTable, {
-    _grandPrixName: 'Japanese Grand Prix',
-    _grandPrixLaps: 57,
-  });
-      await db.insert(_grandprixTable, {
-    _grandPrixName: 'British Grand Prix',
-    _grandPrixLaps: 52,
-  });
-       await db.insert(_grandprixTable, {
-    _grandPrixName: 'Italian Grand Prix',
-    _grandPrixLaps: 53,
-  });
+        await db.execute('''
+          CREATE TABLE drivers_performance(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            driver_id INTEGER NOT NULL,
+            grandprix_id INTEGER NOT NULL,
+            lap_time REAL,
+            total_time REAL NOT NULL,
+            FOREIGN KEY(driver_id) REFERENCES drivers(id),
+            FOREIGN KEY(grandprix_id) REFERENCES grandprix(id),
+            UNIQUE(driver_id, grandprix_id)
+          )
+        ''');
 
-//driver
-  await db.insert(_driverTable, {
-  _driverFirstName: 'Max',
-  _driverLastName: 'Verstappen',
-});
-await db.insert(_driverTable, {
-  _driverFirstName: 'Lando',
-  _driverLastName: 'Norris',
-});
-await db.insert(_driverTable, {
-  _driverFirstName: 'Charles',
-  _driverLastName: 'Leclerc',
-});
-await db.insert(_driverTable, {
-  _driverFirstName: 'George',
-  _driverLastName: 'Russell',
-});
-await db.insert(_driverTable, {
-  _driverFirstName: 'Fernando',
-  _driverLastName: 'Alonso',
-});
+      
+        await db.insert('grandprix', {
+          'grandprix_name': 'Bahrain Grand Prix',
+          'laps': 57,
+          'base_lap_time': 80.0,
+        });
 
-//pneu
-await db.insert(_tiresTable, {
-  _tireCompound: 'Soft',
-  _degradation: 0.15,
-});
-await db.insert(_tiresTable, {
-  _tireCompound: 'Medium',
-  _degradation: 0.10,
-});
-await db.insert(_tiresTable, {
-  _tireCompound: 'Hard',
-  _degradation: 0.05,
-});
-await db.insert(_tiresTable, {
-  _tireCompound: 'Intermediate',
-  _degradation: 0.20,
-});
-await db.insert(_tiresTable, {
-  _tireCompound: 'Full Wet',
-  _degradation: 0.30,
-});
+        await db.insert('grandprix', {
+          'grandprix_name': 'Australian Grand Prix',
+          'laps': 58,
+          'base_lap_time': 81.5,
+        });
 
+        await db.insert('grandprix', {
+          'grandprix_name': 'Japanese Grand Prix',
+          'laps': 53,
+          'base_lap_time': 82.0,
+        });
 
-//final 
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 1, 
-  _grandPrixIdForeignKey: 1, 
-  _lapTime: 95.900,
-  _totalTime: 5476.3,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 2, 
-  _grandPrixIdForeignKey: 1, 
-  _lapTime: 96.050,
-   _totalTime: 5479.85,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 3, 
-  _grandPrixIdForeignKey: 1, 
-  _lapTime: 96.200,
-  _totalTime: 5483.4,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 4, 
-  _grandPrixIdForeignKey: 1, 
-  _lapTime: 96.350,
-  _totalTime: 5486.95,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 5, 
-  _grandPrixIdForeignKey: 1, 
-  _lapTime: 96.650,
-  _totalTime: 5502.05,
-});
+        await db.insert('grandprix', {
+          'grandprix_name': 'British Grand Prix',
+          'laps': 52,
+          'base_lap_time': 79.0,
+        });
 
+        await db.insert('grandprix', {
+          'grandprix_name': 'Italian Grand Prix',
+          'laps': 53,
+          'base_lap_time': 78.5,
+        });
 
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 1, 
-  _grandPrixIdForeignKey: 2, 
-  _lapTime: 85.100,
-  _totalTime: 4935.8,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 2, 
-  _grandPrixIdForeignKey: 2, 
-  _lapTime: 85.250,
-  _totalTime: 4944.5,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 3, 
-  _grandPrixIdForeignKey: 2, 
-  _lapTime: 85.400,
-  _totalTime: 4953.2,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 4, 
-  _grandPrixIdForeignKey: 2, 
-  _lapTime: 85.550,
-  _totalTime: 4961.9,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 5, 
-  _grandPrixIdForeignKey: 2, 
-  _lapTime: 85.850,
-  _totalTime: 4974.3,
-});
+        // 🏎️ DRIVERS
+        await db.insert('drivers', {
+          'driver_first_name': 'Max',
+          'driver_last_name': 'Verstappen',
+          'team': 'Red Bull',
+        });
 
+        await db.insert('drivers', {
+          'driver_first_name': 'Lando',
+          'driver_last_name': 'Norris',
+          'team': 'McLaren',
+        });
 
+        await db.insert('drivers', {
+          'driver_first_name': 'Charles',
+          'driver_last_name': 'Leclerc',
+          'team': 'Ferrari',
+        });
 
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 1, 
-  _grandPrixIdForeignKey: 3, 
-  _lapTime: 95.750,
-  _totalTime: 5074.75,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 2, 
-  _grandPrixIdForeignKey: 3, 
-  _lapTime: 95.900,
-  _totalTime: 5078.7,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 3, 
-  _grandPrixIdForeignKey: 3, 
-  _lapTime: 96.050,
-  _totalTime: 5082.65,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 4, 
-  _grandPrixIdForeignKey: 3, 
-  _lapTime: 96.200,
-  _totalTime: 5086.6,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 5, 
-  _grandPrixIdForeignKey: 3, 
-  _lapTime: 96.500,
-  _totalTime: 5104.5,
-});
+        await db.insert('drivers', {
+          'driver_first_name': 'George',
+          'driver_last_name': 'Russell',
+          'team': 'Mercedes',
+        });
 
+        await db.insert('drivers', {
+          'driver_first_name': 'Fernando',
+          'driver_last_name': 'Alonso',
+          'team': 'Aston Martin',
+        });
 
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 1, 
-  _grandPrixIdForeignKey: 4, 
-  _lapTime: 94.200,
-  _totalTime: 4898.4,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 2, 
-  _grandPrixIdForeignKey: 4, 
-  _lapTime: 94.350,
-  _totalTime: 4902.2,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 3, 
-  _grandPrixIdForeignKey: 4, 
-  _lapTime: 94.500,
-  _totalTime: 4906.0,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 4, 
-  _grandPrixIdForeignKey: 4, 
-  _lapTime: 94.650,
-  _totalTime: 4909.8,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 5, 
-  _grandPrixIdForeignKey: 4, 
-  _lapTime: 94.950,
-  _totalTime: 4927.4,
-});
+        // 🛞 TIRES (🔥 FIX: SNÍŽENÁ DEGRADACE)
+        await db.insert('tires', {
+          'tire_compound': 'Soft',
+          'degradation': 0.035, // ↓ z 0.05
+        });
 
+        await db.insert('tires', {
+          'tire_compound': 'Medium',
+          'degradation': 0.028, // ↓ z 0.04
+        });
 
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 1, 
-  _grandPrixIdForeignKey: 5, 
-  _lapTime: 85.900,
-   _totalTime: 4540.7,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 2, 
-  _grandPrixIdForeignKey: 5, 
-  _lapTime: 86.050,
-   _totalTime: 4551.65,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 3, 
-  _grandPrixIdForeignKey: 5, 
-  _lapTime: 86.200,
-   _totalTime: 4562.6,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 4, 
-  _grandPrixIdForeignKey: 5, 
-  _lapTime: 86.350,
-   _totalTime: 4573.55,
-});
-await db.insert(_driversPerformanceTable, {
-  _driverIdForeignKey: 5, 
-  _grandPrixIdForeignKey: 5, 
-  _lapTime: 86.650,
-   _totalTime: 4593.45,
-});
-},
+        await db.insert('tires', {
+          'tire_compound': 'Hard',
+          'degradation': 0.020, // ↓ z 0.03
+        });
+
+        await db.insert('tires', {
+          'tire_compound': 'Intermediate',
+          'degradation': 0.025,
+        });
+
+        await db.insert('tires', {
+          'tire_compound': 'Full Wet',
+          'degradation': 0.030,
+        });
+
+       
+        await db.insert('drivers_performance', {
+          'driver_id': 1,
+          'grandprix_id': 1,
+          'total_time': 4550.0,
+        });
+
+        await db.insert('drivers_performance', {
+          'driver_id': 2,
+          'grandprix_id': 1,
+          'total_time': 4555.0,
+        });
+
+        await db.insert('drivers_performance', {
+          'driver_id': 3,
+          'grandprix_id': 1,
+          'total_time': 4560.0,
+        });
+
+        await db.insert('drivers_performance', {
+          'driver_id': 4,
+          'grandprix_id': 1,
+          'total_time': 4545.0,
+        });
+
+        await db.insert('drivers_performance', {
+          'driver_id': 5,
+          'grandprix_id': 1,
+          'total_time': 4565.0,
+        });
+      },
     );
 
-    return _database!; 
+    return _database!;
+  }
+
+  Future<double> getExpectedTime(int driverId, int gpId) async {
+    final db = await getDatabase();
+
+    final result = await db.query(
+      'drivers_performance',
+      where: 'driver_id = ? AND grandprix_id = ?',
+      whereArgs: [driverId, gpId],
+    );
+
+    if (result.isEmpty) return 0;
+
+    return (result.first['total_time'] as num).toDouble();
+  }
+
+  Future<List<Map<String, dynamic>>> getGrandPrix() async {
+    final db = await getDatabase();
+    return db.query('grandprix');
+  }
+
+  Future<List<Map<String, dynamic>>> getDrivers() async {
+    final db = await getDatabase();
+    return db.query('drivers');
+  }
+
+  Future<List<Map<String, dynamic>>> getTires() async {
+    final db = await getDatabase();
+    return db.query('tires');
+  }
+
+  Future<void> closeDatabase() async {
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
   }
 }
