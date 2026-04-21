@@ -11,7 +11,6 @@ class Schedule extends StatefulWidget {
 }
 
 class _ScheduleState extends State<Schedule> {
-  // Aktuální data pro 2026 (z oficiálního kalendáře)
   final List<F1Race> races = [
     F1Race(
       round: 1,
@@ -20,6 +19,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Australia",
       date: "6 - 8 March 2026",
       isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 2,
@@ -28,6 +28,7 @@ class _ScheduleState extends State<Schedule> {
       country: "China",
       date: "13 - 15 March 2026",
       isSprint: true,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 3,
@@ -36,6 +37,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Japan",
       date: "27 - 29 March 2026",
       isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 4,
@@ -44,6 +46,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Bahrain",
       date: "10 - 12 April 2026",
       isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 5,
@@ -52,6 +55,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Saudi Arabia",
       date: "17 - 19 April 2026",
       isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 6,
@@ -60,6 +64,7 @@ class _ScheduleState extends State<Schedule> {
       country: "USA",
       date: "1 - 3 May 2026",
       isSprint: true,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 7,
@@ -68,6 +73,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Canada",
       date: "22 - 24 May 2026",
       isSprint: true,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 8,
@@ -76,6 +82,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Monaco",
       date: "5 - 7 June 2026",
       isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 9,
@@ -84,6 +91,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Spain",
       date: "12 - 14 June 2026",
       isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 10,
@@ -92,6 +100,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Austria",
       date: "26 - 28 June 2026",
       isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 11,
@@ -100,6 +109,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Great Britain",
       date: "3 - 5 July 2026",
       isSprint: true,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
     F1Race(
       round: 12,
@@ -108,7 +118,18 @@ class _ScheduleState extends State<Schedule> {
       country: "Belgium",
       date: "17 - 19 July 2026",
       isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
     ),
+
+    F1Race(
+      round: 13,
+      gpName: "Hungarian Grand Prix",
+      circuit: "Hungaroring",
+      country: "Hungary",
+      date: "17 - 19 July 2026",
+      isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+    ) 
   ];
 
   @override
@@ -118,7 +139,6 @@ class _ScheduleState extends State<Schedule> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Header podobný tvému driver listu
             GradientContainer(
               gradient: GradientX.linear(
                 colors: [
@@ -127,37 +147,11 @@ class _ScheduleState extends State<Schedule> {
                 ],
                 angle: -360,
               ),
-              child: const SizedBox(
-                height: 140,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "2026 Season",
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Text(
-                        "Formula 1 Calendar",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              
             ),
 
             const SizedBox(height: 10),
 
-            // Seznam závodů
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -292,7 +286,6 @@ class _ScheduleState extends State<Schedule> {
   }
 }
 
-// Model závodu
 class F1Race {
   final int round;
   final String gpName;
@@ -300,6 +293,7 @@ class F1Race {
   final String country;
   final String date;
   final bool isSprint;
+  final String backgroundImage;
 
   F1Race({
     required this.round,
@@ -308,5 +302,6 @@ class F1Race {
     required this.country,
     required this.date,
     required this.isSprint,
+    required this.backgroundImage,
   });
 }
