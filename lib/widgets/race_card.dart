@@ -95,8 +95,8 @@ class _RaceCardState extends State<RaceCard> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              const Color(0xFFE10600).withOpacity(0.35),
-                              const Color(0xFF8B0000).withOpacity(0.25),
+                              const Color(0xFFE10600).withOpacity(0.25),
+                              const Color(0xFF8B0000).withOpacity(0.15),
                             ],
                           ),
                         ),
