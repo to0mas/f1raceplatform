@@ -55,72 +55,97 @@ class _FinalResultState extends State<FinalResult> {
     });
   }
 
-void _calculate() async {
-  try {
-    final s = widget.strategy;
-    
-    print('=== STRATEGY ===');
-    print('GP: ${s.gp['grandprix_name']}');
-    print('Laps: ${s.gp['laps']}');
-    print('Driver: ${s.driver['driver_first_name']}');
-    print('Start Tyre: ${s.startTyre}');
-    print('Pit Stops: ${s.pitStops}');
-    print('Pit Laps: ${s.pitLaps}');
-    print('Pit Tyres: ${s.pitTyres}');
-    
-    // SIM
-    final sim = RaceDataPrep.calculateRaceTime(
-      gp: s.gp,
-      tires: s.tires,
-      startCompound: s.startTyre,
-      pitTyres: s.pitTyres,
-      pitLaps: s.pitLaps,
-    );
-    
-   
-    
-    // DB
-    final db = DatabaseService.instance;
-    final expectedFromDb = await db.getExpectedTime(
-      s.driverId,
-      s.gpId,
-    );
-    
-   
-    
-  
-    final expected = expectedFromDb > 0
-        ? expectedFromDb
-        : sim * 0.98;
-    
-    
-    setState(() {
-      totalTime = sim;
-      expectedTime = expected;
-      isLoading = false;
-      errorMessage = null;
-    });
-  } catch (e) {
- 
-    setState(() {
-      isLoading = false;
-      errorMessage = 'Error: ${e.toString()}';
-    });
-  }
-}
-  String formatTime(double seconds) {
+  void _calculate() async {
     try {
-      final hours = (seconds / 3600).floor();
-      final minutes = ((seconds % 3600) / 60).floor();
-      final secs = (seconds % 60).toStringAsFixed(2);
+      final s = widget.strategy;
 
-      if (hours > 0) {
-        return "$hours:${minutes.toString().padLeft(2, '0')}:${secs.padLeft(5, '0')}";
-      }
-      return "${minutes}m ${secs}s";
+      final sim = RaceDataPrep.calculateRaceTime(
+        gp: s.gp,
+        tires: s.tires,
+        startCompound: s.startTyre,
+        pitTyres: s.pitTyres,
+        pitLaps: s.pitLaps,
+      );
+
+      final db = DatabaseService.instance;
+      final expectedFromDb = await db.getExpectedTime(
+        s.driverId,
+        s.gpId,
+      );
+
+      final expected =
+          expectedFromDb > 0 ? expectedFromDb : sim * 0.98;
+
+      setState(() {
+        totalTime = sim;
+        expectedTime = expected;
+        isLoading = false;
+        errorMessage = null;
+      });
     } catch (e) {
-      return 'N/A';
+      setState(() {
+        isLoading = false;
+        errorMessage = 'Error: ${e.toString()}';
+      });
     }
+  }
+
+  String formatTime(double seconds) {
+    final hours = (seconds / 3600).floor();
+    final minutes = ((seconds % 3600) / 60).floor();
+    final secs = (seconds % 60).toStringAsFixed(2);
+
+    if (hours > 0) {
+      return "$hours:${minutes.toString().padLeft(2, '0')}:${secs.padLeft(5, '0')}";
+    }
+    return "${minutes}m ${secs}s";
+  }
+
+  // ---------------- UI HELPERS ----------------
+
+  Widget _glassCard({required Widget child}) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.06),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.08),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.4),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+
+  Widget _actionButton({
+    required String text,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+      ),
+      onPressed: onTap,
+      child: Text(
+        text,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 
   Widget _buildImageWithFallback(
@@ -130,392 +155,28 @@ void _calculate() async {
   ) {
     if (imageUrl.isEmpty) {
       return Container(
-        width: double.infinity,
         height: height,
+        width: double.infinity,
         decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.05),
           borderRadius: BorderRadius.circular(12),
-          color: Colors.grey.shade800,
         ),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.image, size: 40, color: Colors.white38),
-              const SizedBox(height: 8),
-              Text(
-                fallbackLabel,
-                style: TextStyle(
-                  color: Colors.white38,
-                  fontSize: 14,
-                ),
-              ),
-            ],
+          child: Text(
+            fallbackLabel,
+            style: TextStyle(color: Colors.white.withOpacity(0.4)),
           ),
         ),
       );
     }
 
-    return Container(
-      width: double.infinity,
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              color: Colors.grey.shade800,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.error, size: 40, color: Colors.red),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Failed to load image',
-                      style: TextStyle(color: Colors.white38, fontSize: 12),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              color: Colors.grey.shade800,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        backgroundColor: const Color(0xFF0F0F0F),
-        body: Center(
-          child: isLoading
-              ? const CircularProgressIndicator()
-              : errorMessage != null
-                  ? _buildErrorWidget()
-                  : _buildResultsWidget(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 64, color: Colors.red),
-          const SizedBox(height: 24),
-          const Text(
-            'Calculation Error',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            errorMessage ?? 'Unknown error',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
-              fontSize: 14,
-             
-            ),
-          ),
-          const SizedBox(height: 40),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade800,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: () => Navigator.of(context).popUntil(
-                    (route) => route.isFirst,
-                  ),
-                  child: const Text(
-                    'HOME',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 179, 55, 51),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'BACK',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildResultsWidget() {
-    final diff = totalTime - expectedTime;
-    final absDiff = diff.abs();
-
-    final gpName = widget.strategy.gp['grandprix_name'] as String? ?? 'Unknown';
-    final driverFirstName =
-        widget.strategy.driver['driver_first_name'] as String? ?? 'Unknown';
-    final gpImageUrl = gpImages[gpName] ?? '';
-    final driverImageUrl = gpDrivers[driverFirstName] ?? '';
-
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: _buildImageWithFallback(gpImageUrl, 200, gpName),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _buildImageWithFallback(driverImageUrl, 150, driverFirstName),
-          ),
-
-          const SizedBox(height: 40),
-
-          Text(
-            'Your Simulation',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
-              fontSize: 14,
-              letterSpacing: 1.5,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            formatTime(totalTime),
-            style: const TextStyle(
-              color: Color.fromARGB(255, 255, 215, 0),
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          Text(
-            'Expected Time (AI Baseline)',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
-              fontSize: 14,
-              letterSpacing: 1.5,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            formatTime(expectedTime),
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 28,
-            ),
-          ),
-
-          const SizedBox(height: 30),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 16,
-              ),
-              decoration: BoxDecoration(
-                color: diff < 0
-                    ? Colors.green.withOpacity(0.1)
-                    : Colors.red.withOpacity(0.1),
-                border: Border.all(
-                  color: diff < 0 ? Colors.green : Colors.red,
-                  width: 1.5,
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    diff < 0 ? '🚀 YOU WIN!' : '⚠️ YOU LOSE',
-                    style: TextStyle(
-                      color: diff < 0 ? Colors.green : Colors.red,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    diff < 0
-                        ? '−${absDiff.toStringAsFixed(2)}s'
-                        : '+${absDiff.toStringAsFixed(2)}s',
-                    style: TextStyle(
-                      color: diff < 0 ? Colors.green : Colors.red,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'vs. AI Baseline',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 40),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade900,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.1),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'YOUR STRATEGY',
-                    style: TextStyle(
-                      color: const Color(0xFFFFD700),
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  _buildDetailRow('Grand Prix:', gpName),
-                  _buildDetailRow(
-                    'Driver:',
-                    '${widget.strategy.driver['driver_first_name']} ${widget.strategy.driver['driver_last_name']}',
-                  ),
-                  _buildDetailRow('Start Tyre:', widget.strategy.startTyre),
-                  _buildDetailRow(
-                    'Pit Stops:',
-                    widget.strategy.pitStops.toString(),
-                  ),
-                  if (widget.strategy.pitStops > 0) ...[
-                    _buildDetailRow(
-                      'Pit Laps:',
-                      widget.strategy.pitLaps.join(', '),
-                    ),
-                    _buildDetailRow(
-                      'Pit Tyres:',
-                      widget.strategy.pitTyres.join(', '),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 40),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey.shade800,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () => Navigator.of(context).popUntil(
-                      (route) => route.isFirst,
-                    ),
-                    child: const Text(
-                      'HOME',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 179, 55, 51),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'BACK',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 30),
-        ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Image.network(
+        imageUrl,
+        height: height,
+        width: double.infinity,
+        fit: BoxFit.cover,
       ),
     );
   }
@@ -528,18 +189,226 @@ void _calculate() async {
         children: [
           Text(
             label,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
-              fontSize: 13,
-            ),
+            style: TextStyle(color: Colors.white.withOpacity(0.7)),
           ),
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ---------------- BUILD ----------------
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF0B0B0F),
+                Color(0xFF141420),
+                Color(0xFF0B0B0F),
+              ],
             ),
+          ),
+          child: SafeArea(
+            child: Center(
+              child: isLoading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : errorMessage != null
+                      ? Text(errorMessage!,
+                          style: const TextStyle(color: Colors.red))
+                      : _buildResultsWidget(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildResultsWidget() {
+    final diff = totalTime - expectedTime;
+    final absDiff = diff.abs();
+
+    final gpName = widget.strategy.gp['grandprix_name'] ?? 'Unknown';
+    final driverFirstName =
+        widget.strategy.driver['driver_first_name'] ?? 'Unknown';
+
+    final gpImageUrl = gpImages[gpName] ?? '';
+    final driverImageUrl = gpDrivers[driverFirstName] ?? '';
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          /// GP
+          _glassCard(
+            child: Column(
+              children: [
+                _buildImageWithFallback(gpImageUrl, 180, gpName),
+                const SizedBox(height: 10),
+                Text(
+                  gpName.toUpperCase(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          /// DRIVER
+          _glassCard(
+            child: Column(
+              children: [
+                _buildImageWithFallback(driverImageUrl, 140, driverFirstName),
+                const SizedBox(height: 10),
+                Text(
+                  "${widget.strategy.driver['driver_first_name']} ${widget.strategy.driver['driver_last_name']}".toUpperCase(),
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+      
+          _glassCard(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    const Text("YOUR TIME",
+                        style: TextStyle(color: Colors.white70)),
+                    const SizedBox(height: 10),
+                    Text(
+                      formatTime(totalTime),
+                      style: const TextStyle(
+                        color: Color(0xFFFFD700),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text("VS",
+                      style: TextStyle(color: Colors.white)),
+                ),
+
+                Column(
+                  children: [
+                    const Text("AI TIME",
+                        style: TextStyle(color: Colors.white70)),
+                    const SizedBox(height: 10),
+                    Text(
+                      formatTime(expectedTime),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          _glassCard(
+            child: Container(
+              width: double.infinity,
+              child: Column(
+                
+                children: [
+                  Text(
+                    diff < 0 ? "YOU WIN" : "YOU LOSE",
+                    style: TextStyle(
+                      color: diff < 0 ? Colors.greenAccent : Colors.redAccent,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "${diff > 0 ? '+' : '-'}${absDiff.toStringAsFixed(2)}s",
+                    style: TextStyle(
+                      fontSize: 42,
+                      fontWeight: FontWeight.bold,
+                      color: diff < 0 ? Colors.greenAccent : Colors.redAccent,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    "DIFFERENCE TO AI",
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          /// STRATEGY
+          _glassCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("STRATEGY",
+                    style: TextStyle(color: Color(0xFFFFD700))),
+                const SizedBox(height: 10),
+                _buildDetailRow("Pit Stops",
+                    widget.strategy.pitStops.toString()),
+                _buildDetailRow("Start Tyre", widget.strategy.startTyre),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          Row(
+            children: [
+              Expanded(
+                child: _actionButton(
+                  text: "HOME",
+                  color: Colors.grey.shade800,
+                  onTap: () =>
+                      Navigator.of(context).popUntil((r) => r.isFirst),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _actionButton(
+                  text: "BACK",
+                  color: const Color(0xFFB33731),
+                  onTap: () => Navigator.pop(context),
+                ),
+              ),
+            ],
           ),
         ],
       ),
