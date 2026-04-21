@@ -24,33 +24,7 @@ class _NewsScreenState extends State<NewsScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFF0E0E0E),
 
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        flexibleSpace: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(111, 167, 51, 51).withOpacity(0.2),
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        title: const Center(
-          child: Image(
-            image: AssetImage('assets/images/Logo_tr_cerna.png'),
-            height: 50,
-            width: 45,
-          ),
-        ),
-      ),
+      
 
       body: FutureBuilder<List<News>>(
         future: _newsFuture,
@@ -80,80 +54,83 @@ class _NewsScreenState extends State<NewsScreen> {
 
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withOpacity(0.1)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      
-                      // IMAGE
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(16),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.white.withOpacity(0.1)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        
+                        // IMAGE
+                        ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(16),
+                          ),
+                          child: news.urlImg.isNotEmpty
+                              ? Image.network(
+                                  news.urlImg,
+                                  height: 180,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(
+                                  height: 180,
+                                  color: Colors.grey,
+                                  child: const Center(
+                                    child: Icon(Icons.image_not_supported),
+                                  ),
+                                ),
                         ),
-                        child: news.urlImg.isNotEmpty
-                            ? Image.network(
-                                news.urlImg,
-                                height: 180,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              )
-                            : Container(
-                                height: 180,
-                                color: Colors.grey,
-                                child: const Center(
-                                  child: Icon(Icons.image_not_supported),
+                  
+                        Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              
+                              // SOURCE
+                              Text(
+                                news.source,
+                                style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 12,
                                 ),
                               ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            
-                            // SOURCE
-                            Text(
-                              news.source,
-                              style: TextStyle(
-                                color: Colors.redAccent,
-                                fontSize: 12,
+                  
+                              const SizedBox(height: 6),
+                  
+                              
+                              Text(
+                                news.title,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-
-                            const SizedBox(height: 6),
-
-                            
-                            Text(
-                              news.title,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                  
+                              const SizedBox(height: 8),
+                  
+                              
+                              Text(
+                                news.description,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.7),
+                                  fontSize: 13,
+                                ),
                               ),
-                            ),
-
-                            const SizedBox(height: 8),
-
-                            
-                            Text(
-                              news.description,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );
