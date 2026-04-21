@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:f1raceplatform/models/news.dart';
-import 'package:f1raceplatform/services/news_call.dart';
+import 'package:f1raceplatform/api_calls/news_call.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
