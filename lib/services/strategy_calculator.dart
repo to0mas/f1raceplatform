@@ -44,60 +44,41 @@ class RaceDataPrep {
     }
   }
 
-
+  // Degradace resetuje na 0 na začátku každého stintu
   static double calculateStint({
     required double baseLapTime,
     required double baseDegradation,
     required int laps,
     required String compound,
-    required int startingLapIndex, 
   }) {
     double total = 0;
-
     for (int i = 0; i < laps; i++) {
-      final globalLap = startingLapIndex + i;
-
-      total += baseLapTime + (baseDegradation * globalLap);
+      total += baseLapTime + (baseDegradation * i);
     }
-
     return total;
   }
 
-  /// 💥 FIX: REALISTIC PIT LOSS
   static double pitLossTime(String from, String to) {
-    if (from == to) return 18.0;
-    return 22.0; // realistic Bahrain range
+    return 22.0;
   }
 
-  static bool validatePitLaps(
-    List<int> pitLaps,
-    int totalLaps,
-  ) {
+  static bool validatePitLaps(List<int> pitLaps, int totalLaps) {
     if (pitLaps.isEmpty) return true;
-
     if (pitLaps.first < 3) return false;
     if (pitLaps.last > totalLaps - 5) return false;
-
     for (int i = 0; i < pitLaps.length - 1; i++) {
       if (pitLaps[i] >= pitLaps[i + 1]) return false;
       if (pitLaps[i + 1] - pitLaps[i] < 5) return false;
     }
-
     return true;
   }
 
-  static bool validatePitTyres(
-    String startCompound,
-    List<String> pitTyres,
-  ) {
+  static bool validatePitTyres(String startCompound, List<String> pitTyres) {
     if (pitTyres.isEmpty) return true;
-
     if (pitTyres.first == startCompound) return false;
-
     for (int i = 0; i < pitTyres.length - 1; i++) {
       if (pitTyres[i] == pitTyres[i + 1]) return false;
     }
-
     return true;
   }
 
@@ -110,61 +91,44 @@ class RaceDataPrep {
   }) {
     final baseLapTime = getBaseLapTime(gp);
     final totalLaps = getTotalLaps(gp);
-
     final cleanLaps = cleanPitLaps(pitLaps);
     final cleanTyres = cleanPitTyres(pitTyres);
 
     if (!validatePitLaps(cleanLaps, totalLaps)) {
       throw Exception('Invalid pit lap configuration');
     }
-
     if (!validatePitTyres(startCompound, cleanTyres)) {
       throw Exception('Invalid tire configuration');
     }
 
     String currentTyre = startCompound;
     int previousLap = 0;
-
     List<Map<String, dynamic>> result = [];
 
-    // 0 STOP CASE
     if (cleanLaps.isEmpty) {
       final deg = getDegradation(tires, startCompound);
-
       final stintTime = calculateStint(
         baseLapTime: baseLapTime,
         baseDegradation: deg,
         laps: totalLaps,
         compound: startCompound,
-        startingLapIndex: 0,
       );
-
       return [
-        {
-          'stint': 1,
-          'tyre': startCompound,
-          'laps': totalLaps,
-          'time': stintTime,
-        }
+        {'stint': 1, 'tyre': startCompound, 'laps': totalLaps, 'time': stintTime}
       ];
     }
 
-    // NORMAL CASE
     for (int i = 0; i <= cleanLaps.length; i++) {
-      final endLap =
-          (i < cleanLaps.length) ? cleanLaps[i] : totalLaps;
-
+      final endLap = (i < cleanLaps.length) ? cleanLaps[i] : totalLaps;
       final stintLaps = endLap - previousLap;
       if (stintLaps <= 0) continue;
 
       final deg = getDegradation(tires, currentTyre);
-
       final stintTime = calculateStint(
         baseLapTime: baseLapTime,
         baseDegradation: deg,
         laps: stintLaps,
         compound: currentTyre,
-        startingLapIndex: previousLap, 
       );
 
       result.add({
@@ -177,7 +141,6 @@ class RaceDataPrep {
       if (i < cleanTyres.length) {
         currentTyre = cleanTyres[i];
       }
-
       previousLap = endLap;
     }
 
@@ -201,10 +164,8 @@ class RaceDataPrep {
       );
 
       double total = 0;
-
       for (int i = 0; i < breakdown.length; i++) {
         total += breakdown[i]['time'] as double;
-
         if (i != breakdown.length - 1) {
           total += pitLossTime(
             breakdown[i]['tyre'] as String,
@@ -212,12 +173,28 @@ class RaceDataPrep {
           );
         }
       }
-
       return total;
     } catch (e) {
       final baseLapTime = getBaseLapTime(gp);
       final totalLaps = getTotalLaps(gp);
       return (totalLaps * baseLapTime) + 120;
     }
+  }
+
+  // AI simuluje klasickou 1-stop strategii: Medium → Hard
+  static double calculateAiTime({
+    required Map<String, dynamic> gp,
+    required List<Map<String, dynamic>> tires,
+  }) {
+    final totalLaps = getTotalLaps(gp);
+    final pitLap = (totalLaps * 0.5).round();
+
+    return calculateRaceTime(
+      gp: gp,
+      tires: tires,
+      startCompound: 'Medium',
+      pitTyres: ['Hard'],
+      pitLaps: [pitLap],
+    );
   }
 }

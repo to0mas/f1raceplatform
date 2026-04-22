@@ -1,6 +1,5 @@
 import 'package:f1raceplatform/models/race_strategy.dart';
 import 'package:f1raceplatform/services/strategy_calculator.dart';
-import 'package:f1raceplatform/services/database_service.dart';
 import 'package:flutter/material.dart';
 
 class FinalResult extends StatefulWidget {
@@ -67,14 +66,10 @@ class _FinalResultState extends State<FinalResult> {
         pitLaps: s.pitLaps,
       );
 
-      final db = DatabaseService.instance;
-      final expectedFromDb = await db.getExpectedTime(
-        s.driverId,
-        s.gpId,
+      final expected = RaceDataPrep.calculateAiTime(
+        gp: s.gp,
+        tires: s.tires,
       );
-
-      final expected =
-          expectedFromDb > 0 ? expectedFromDb : sim * 0.98;
 
       setState(() {
         totalTime = sim;
@@ -100,8 +95,6 @@ class _FinalResultState extends State<FinalResult> {
     }
     return "${minutes}m ${secs}s";
   }
-
-  // ---------------- UI HELPERS ----------------
 
   Widget _glassCard({required Widget child}) {
     return Container(
@@ -200,8 +193,6 @@ class _FinalResultState extends State<FinalResult> {
     );
   }
 
-  // ---------------- BUILD ----------------
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -247,7 +238,6 @@ class _FinalResultState extends State<FinalResult> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          /// GP
           _glassCard(
             child: Column(
               children: [
@@ -258,7 +248,7 @@ class _FinalResultState extends State<FinalResult> {
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 18
+                    fontSize: 18,
                   ),
                 ),
               ],
@@ -267,15 +257,19 @@ class _FinalResultState extends State<FinalResult> {
 
           const SizedBox(height: 16),
 
-          /// DRIVER
           _glassCard(
             child: Column(
               children: [
                 _buildImageWithFallback(driverImageUrl, 140, driverFirstName),
                 const SizedBox(height: 10),
                 Text(
-                  "${widget.strategy.driver['driver_first_name']} ${widget.strategy.driver['driver_last_name']}".toUpperCase(),
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 18),
+                  "${widget.strategy.driver['driver_first_name']} ${widget.strategy.driver['driver_last_name']}"
+                      .toUpperCase(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
               ],
             ),
@@ -283,7 +277,6 @@ class _FinalResultState extends State<FinalResult> {
 
           const SizedBox(height: 20),
 
-      
           _glassCard(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -303,7 +296,6 @@ class _FinalResultState extends State<FinalResult> {
                     ),
                   ],
                 ),
-
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -314,7 +306,6 @@ class _FinalResultState extends State<FinalResult> {
                   child: const Text("VS",
                       style: TextStyle(color: Colors.white)),
                 ),
-
                 Column(
                   children: [
                     const Text("AI TIME",
@@ -337,13 +328,12 @@ class _FinalResultState extends State<FinalResult> {
           const SizedBox(height: 16),
 
           _glassCard(
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               child: Column(
-                
                 children: [
                   Text(
-                    diff < 0 ? "YOU WIN" : "YOU LOSE",
+                    diff < 0 ? "YOU WIN 🏆" : "YOU LOSE",
                     style: TextStyle(
                       color: diff < 0 ? Colors.greenAccent : Colors.redAccent,
                       fontSize: 20,
@@ -373,17 +363,28 @@ class _FinalResultState extends State<FinalResult> {
 
           const SizedBox(height: 20),
 
-          /// STRATEGY
           _glassCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("STRATEGY",
+                const Text("YOUR STRATEGY",
                     style: TextStyle(color: Color(0xFFFFD700))),
                 const SizedBox(height: 10),
-                _buildDetailRow("Pit Stops",
-                    widget.strategy.pitStops.toString()),
+                _buildDetailRow(
+                    "Pit Stops", widget.strategy.pitStops.toString()),
                 _buildDetailRow("Start Tyre", widget.strategy.startTyre),
+                if (widget.strategy.pitLaps.isNotEmpty)
+                  _buildDetailRow(
+                    "Pit Laps",
+                    widget.strategy.pitLaps.join(', '),
+                  ),
+                if (widget.strategy.pitTyres.isNotEmpty)
+                  _buildDetailRow(
+                    "Pit Tyres",
+                    widget.strategy.pitTyres.join(' → '),
+                  ),
+                
+             
               ],
             ),
           ),

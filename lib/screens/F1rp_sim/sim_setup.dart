@@ -40,13 +40,13 @@ class _SimSetupState extends State<SimSetup> {
 
   final Map<String, String> gpImages = {
     'Bahrain Grand Prix':
-        'https://media.formula1.com/image/upload/c_lfill,w_2048/q_auto/v1740000001/content/dam/fom-website/manual/2023/BahrainGP/GettyImages-1471457958.webp',
+        'https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2026-03/260303-formula-1-testing-ew-600p-a3c0cd.jpg',
     'Australian Grand Prix':
-        'https://images.ctfassets.net/gy95mqeyjg28/2EkenT3S9x0YTd6UpW0vxT/4badbff144512a6efbf1838561187361/2265031100.jpg?w=3840&q=75&fm=webp&fit=fill',
+        'https://images.ps-aws.com/c?url=https%3A%2F%2Fd3cm515ijfiu6w.cloudfront.net%2Fwp-content%2Fuploads%2F2025%2F03%2F16052041%2F2025-australian-grand-prix-race-start-1320x742.jpg',
     'Japanese Grand Prix':
         'https://media.formula1.com/image/upload/f_auto/q_auto/v1677245019/content/dam/fom-website/2018-redesign-assets/Racehub%20header%20images%2016x9/Japan.jpg',
     'British Grand Prix':
-        'https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/content/dam/fom-website/sutton/2021/GreatBritain/Sunday/1329376119.webp',
+        'https://www.motorsportmagazine.com/wp-content/uploads/2025/07/20240707F1-0257-800x450.jpg',
     'Italian Grand Prix':
         'https://media.formula1.com/image/upload/f_auto/q_auto/v1677238736/content/dam/fom-website/2018-redesign-assets/Racehub%20header%20images%2016x9/Italy.jpg',
   };
@@ -55,13 +55,13 @@ class _SimSetupState extends State<SimSetup> {
     'Max':
         'https://gpticketstore.vshcdn.net/uploads/images/12172/teams-lineups-f1-max-verstapen.jpg',
     'Lando':
-        'https://media.formula1.com/image/upload/t_16by9Centre/c_lfill,w_3392/q_auto/v1740000001/trackside-images/2024/F1_Grand_Prix_Of_Singapore/2173723984.webp',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMCaxQYbMkkwnaJKzG0GsO63SaDaI_bu8gMw&s',
     'Charles':
         'https://cd8.incdatagate.cz/images/1f12bb3a-944b-6418-b479-41c093038f50/720x405.jpg',
     'George':
         'https://cd8.incdatagate.cz/images/1f0717cf-1997-659c-89dd-c300895e78dd/720x405.jpg',
     'Fernando':
-        'https://f1chronicle.com/wp-content/uploads/2023/11/GP2320_141541_ONZ8936-scaled.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBQt6hcI2AvnV4TMYZcKXZDN-s7qqrCI0EvA&s',
   };
 
   Map<String, dynamic>? selectedGP;
