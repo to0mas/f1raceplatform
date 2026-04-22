@@ -2,6 +2,7 @@ import 'package:f1raceplatform/models/races.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:ui';
+import 'dart:async';
 import 'package:f1raceplatform/api_calls/races_call.dart';
 
 class RaceCard extends StatefulWidget {
@@ -15,10 +16,16 @@ class _RaceCardState extends State<RaceCard> {
   List<Race> races = [];
   bool isLoading = true;
 
+  // ⏱️ COUNTDOWN
+  late Timer timer;
+  Duration timeLeft = Duration.zero;
+  final DateTime targetDate = DateTime(2026, 5, 1);
+
   @override
   void initState() {
     super.initState();
     loadRaces();
+    startCountdown();
   }
 
   void loadRaces() async {
@@ -34,6 +41,32 @@ class _RaceCardState extends State<RaceCard> {
         isLoading = false;
       });
     }
+  }
+
+  void startCountdown() {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      final now = DateTime.now();
+      final difference = targetDate.difference(now);
+
+      setState(() {
+        timeLeft = difference.isNegative ? Duration.zero : difference;
+      });
+    });
+  }
+
+  String formatDuration(Duration d) {
+    final days = d.inDays;
+    final hours = d.inHours % 24;
+    final minutes = d.inMinutes % 60;
+    final seconds = d.inSeconds % 60;
+
+    return '${days}d ${hours}h ${minutes}m ${seconds}s';
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -59,7 +92,6 @@ class _RaceCardState extends State<RaceCard> {
 
     return Column(
       children: [
-   
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Animate(
@@ -77,13 +109,13 @@ class _RaceCardState extends State<RaceCard> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 image: const DecorationImage(
-                  image: NetworkImage('https://images.ctfassets.net/gy95mqeyjg28/5JNOmfnCQtENFZ17zbJv87/2064c97ebcd975946cbd0ee02064ae46/GP2406_152034_V6A3454.jpg?w=3840&q=75&fm=webp&fit=fill'),
+                  image: NetworkImage(
+                      'https://images.ctfassets.net/gy95mqeyjg28/5JNOmfnCQtENFZ17zbJv87/2064c97ebcd975946cbd0ee02064ae46/GP2406_152034_V6A3454.jpg?w=3840&q=75&fm=webp&fit=fill'),
                   fit: BoxFit.cover,
                 ),
               ),
               child: Stack(
                 children: [
-              
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: BackdropFilter(
@@ -104,7 +136,6 @@ class _RaceCardState extends State<RaceCard> {
                     ),
                   ),
 
-             
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
@@ -115,7 +146,6 @@ class _RaceCardState extends State<RaceCard> {
                     ),
                   ),
 
-               
                   Padding(
                     padding: const EdgeInsets.all(24),
                     child: Column(
@@ -148,6 +178,7 @@ class _RaceCardState extends State<RaceCard> {
                             ),
                           ],
                         ),
+
                         Row(
                           children: [
                             Container(
@@ -165,13 +196,15 @@ class _RaceCardState extends State<RaceCard> {
                               child: Row(
                                 children: [
                                   const Icon(
-                                    Icons.calendar_today,
+                                    Icons.timer,
                                     color: Color(0xFFFFD700),
                                     size: 16,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    race.date?.toString().split(' ')[0] ?? 'TBD',
+                                    timeLeft.inSeconds == 0
+                                        ? "MAY 1 IS HERE 🚀"
+                                        : formatDuration(timeLeft),
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -192,12 +225,10 @@ class _RaceCardState extends State<RaceCard> {
           ),
         ),
 
-    
         Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              // LAPS CARD
               Expanded(
                 child: Animate(
                   delay: 100.ms,
@@ -263,7 +294,6 @@ class _RaceCardState extends State<RaceCard> {
                 ),
               ),
 
-        
               Expanded(
                 child: Animate(
                   delay: 200.ms,
