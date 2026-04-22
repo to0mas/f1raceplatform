@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:f1raceplatform/theme/theme_data.dart';
 import 'package:gradient_generator/gradient_generator.dart';
+import 'package:f1raceplatform/screens/race_detail.dart';
 
 class Schedule extends StatefulWidget {
   const Schedule({super.key});
@@ -19,7 +20,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Australia",
       date: "6 - 8 March 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Australian_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 2,
@@ -28,7 +32,10 @@ class _ScheduleState extends State<Schedule> {
       country: "China",
       date: "13 - 15 March 2026",
       isSprint: true,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Chinese_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "2004",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 3,
@@ -37,7 +44,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Japan",
       date: "27 - 29 March 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Japanese_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 4,
@@ -46,7 +56,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Bahrain",
       date: "10 - 12 April 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Bahrain_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 5,
@@ -55,7 +68,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Saudi Arabia",
       date: "17 - 19 April 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Saudi_Arabian_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 6,
@@ -64,7 +80,10 @@ class _ScheduleState extends State<Schedule> {
       country: "USA",
       date: "1 - 3 May 2026",
       isSprint: true,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Miami_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 7,
@@ -73,7 +92,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Canada",
       date: "22 - 24 May 2026",
       isSprint: true,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Canadian_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 8,
@@ -82,7 +104,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Monaco",
       date: "5 - 7 June 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Monaco_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 9,
@@ -91,7 +116,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Spain",
       date: "12 - 14 June 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Spanish_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 10,
@@ -100,7 +128,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Austria",
       date: "26 - 28 June 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Austrian_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 11,
@@ -109,7 +140,10 @@ class _ScheduleState extends State<Schedule> {
       country: "Great Britain",
       date: "3 - 5 July 2026",
       isSprint: true,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/British_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
     F1Race(
       round: 12,
@@ -118,9 +152,11 @@ class _ScheduleState extends State<Schedule> {
       country: "Belgium",
       date: "17 - 19 July 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+      backgroundImage: 'assets/images/Belgian_Grand_Prix.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
     ),
-
     F1Race(
       round: 13,
       gpName: "Hungarian Grand Prix",
@@ -128,8 +164,11 @@ class _ScheduleState extends State<Schedule> {
       country: "Hungary",
       date: "17 - 19 July 2026",
       isSprint: false,
-      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
-    ) 
+      backgroundImage: 'assets/images/hungar.jpg',
+      circuitLength: "5.278 km",
+      firstGP: "1996",
+      fastestLap: "1:20.235 - Charles Leclerc (2022)",
+    ),
   ];
 
   @override
@@ -147,11 +186,8 @@ class _ScheduleState extends State<Schedule> {
                 ],
                 angle: -360,
               ),
-              
             ),
-
             const SizedBox(height: 10),
-
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -159,38 +195,40 @@ class _ScheduleState extends State<Schedule> {
               itemCount: races.length,
               itemBuilder: (context, index) {
                 final race = races[index];
-                final isPast = false;
 
                 return GestureDetector(
                   onTap: () {
-                    
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Otevírám detail: ${race.gpName}")),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RaceDetail(race: race),
+                      ),
                     );
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      image: DecorationImage(
+                        image: AssetImage(race.backgroundImage),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                        filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
                         child: Container(
                           padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF1A1A1A).withOpacity(0.55),
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.15),
-                              width: 1.2,
-                            ),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
+                          color: const Color(0xFF1A1A1A).withOpacity(0.55),
                           child: Row(
                             children: [
                               Container(
                                 width: 52,
                                 height: 52,
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 197, 11, 11).withOpacity(0.2),
+                                  color: const Color.fromARGB(255, 197, 11, 11)
+                                      .withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Center(
@@ -204,10 +242,7 @@ class _ScheduleState extends State<Schedule> {
                                   ),
                                 ),
                               ),
-
                               const SizedBox(width: 16),
-
-                             
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,13 +275,12 @@ class _ScheduleState extends State<Schedule> {
                                   ],
                                 ),
                               ),
-
-                              
                               Column(
                                 children: [
                                   if (race.isSprint)
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 4),
                                       decoration: BoxDecoration(
                                         color: Colors.orange.withOpacity(0.25),
                                         borderRadius: BorderRadius.circular(20),
@@ -277,7 +311,6 @@ class _ScheduleState extends State<Schedule> {
                 );
               },
             ),
-
             const SizedBox(height: 30),
           ],
         ),
@@ -294,6 +327,9 @@ class F1Race {
   final String date;
   final bool isSprint;
   final String backgroundImage;
+  final String circuitLength;
+  final String firstGP;
+  final String fastestLap;
 
   F1Race({
     required this.round,
@@ -303,5 +339,8 @@ class F1Race {
     required this.date,
     required this.isSprint,
     required this.backgroundImage,
+    required this.circuitLength,
+    required this.firstGP,
+    required this.fastestLap,
   });
 }
