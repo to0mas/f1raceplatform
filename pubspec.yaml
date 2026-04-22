@@ -17,7 +17,6 @@ dependencies:
   path: ^1.9.1
   gradient_generator: ^1.1.0
   flutter_animate: ^4.5.0
-
   http: ^1.2.0
   intl: ^0.19.0
   fl_chart: ^0.68.0

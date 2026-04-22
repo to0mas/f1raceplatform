@@ -19,11 +19,15 @@ class _ScheduleState extends State<Schedule> {
       country: "Australia",
       date: "6 - 8 March 2026",
       isSprint: false,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Australian_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
       
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 2,
@@ -32,10 +36,14 @@ class _ScheduleState extends State<Schedule> {
       country: "China",
       date: "13 - 15 March 2026",
       isSprint: true,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Chinese_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 3,
@@ -44,10 +52,14 @@ class _ScheduleState extends State<Schedule> {
       country: "Japan",
       date: "27 - 29 March 2026",
       isSprint: false,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Japanese_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 4,
@@ -56,10 +68,14 @@ class _ScheduleState extends State<Schedule> {
       country: "Bahrain",
       date: "10 - 12 April 2026",
       isSprint: false,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Bahrain_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 5,
@@ -68,10 +84,14 @@ class _ScheduleState extends State<Schedule> {
       country: "Saudi Arabia",
       date: "17 - 19 April 2026",
       isSprint: false,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Saudi_Arabian_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 6,
@@ -80,10 +100,14 @@ class _ScheduleState extends State<Schedule> {
       country: "USA",
       date: "1 - 3 May 2026",
       isSprint: true,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Miami_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 7,
@@ -92,10 +116,14 @@ class _ScheduleState extends State<Schedule> {
       country: "Canada",
       date: "22 - 24 May 2026",
       isSprint: true,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Canadian_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 8,
@@ -104,10 +132,14 @@ class _ScheduleState extends State<Schedule> {
       country: "Monaco",
       date: "5 - 7 June 2026",
       isSprint: false,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Monaco_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 9,
@@ -116,10 +148,14 @@ class _ScheduleState extends State<Schedule> {
       country: "Spain",
       date: "12 - 14 June 2026",
       isSprint: false,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Spanish_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 10,
@@ -128,10 +164,14 @@ class _ScheduleState extends State<Schedule> {
       country: "Austria",
       date: "26 - 28 June 2026",
       isSprint: false,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Austrian_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 11,
@@ -140,10 +180,14 @@ class _ScheduleState extends State<Schedule> {
       country: "Great Britain",
       date: "3 - 5 July 2026",
       isSprint: true,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/British_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
     F1Race(
       round: 12,
@@ -152,6 +196,7 @@ class _ScheduleState extends State<Schedule> {
       country: "Belgium",
       date: "17 - 19 July 2026",
       isSprint: false,
+<<<<<<< HEAD
       backgroundImage: 'assets/images/Belgian_Grand_Prix.jpg',
       circuitLength: "5.278 km",
       firstGP: "1996",
@@ -168,7 +213,20 @@ class _ScheduleState extends State<Schedule> {
       circuitLength: "5.278 km",
       firstGP: "1996",
       fastestLap: "1:20.235 - Charles Leclerc (2022)",
+=======
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
     ),
+
+    F1Race(
+      round: 13,
+      gpName: "Hungarian Grand Prix",
+      circuit: "Hungaroring",
+      country: "Hungary",
+      date: "17 - 19 July 2026",
+      isSprint: false,
+      backgroundImage: 'assets/images/Australian Grand Prix.jpg',
+    ) 
   ];
 
   @override
@@ -186,8 +244,12 @@ class _ScheduleState extends State<Schedule> {
                 ],
                 angle: -360,
               ),
+
             ),
             const SizedBox(height: 10),
+
+
+
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -324,9 +386,12 @@ class F1Race {
   final String date;
   final bool isSprint;
   final String backgroundImage;
+<<<<<<< HEAD
   final String circuitLength;
   final String firstGP;
   final String fastestLap;
+=======
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
 
   F1Race({
     required this.round,
@@ -336,9 +401,12 @@ class F1Race {
     required this.date,
     required this.isSprint,
     required this.backgroundImage,
+<<<<<<< HEAD
     required this.circuitLength,
     required this.firstGP,
     required this.fastestLap
+=======
+>>>>>>> c888ffc6c98f7577217feaa7378f7fcb3501b8dc
   });
 }
 

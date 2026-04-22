@@ -7,9 +7,11 @@ import 'package:f1raceplatform/models/driver.dart';
 import 'package:f1raceplatform/models/driver_standing.dart';
 import 'package:f1raceplatform/models/news.dart';
 import 'package:f1raceplatform/screens/F1rp_sim/f1rp_sim.dart';
+import 'package:f1raceplatform/screens/alonso.dart';
 import 'package:f1raceplatform/screens/news.dart';
 import 'package:f1raceplatform/screens/schedule_screen.dart';
 import 'package:f1raceplatform/screens/standings.dart';
+import 'package:f1raceplatform/screens/leclerc.dart';
 import 'package:f1raceplatform/widgets/f1_weather_card.dart';
 import 'package:f1raceplatform/widgets/race_card.dart';
 import 'package:flutter/material.dart';
@@ -172,7 +174,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
 class HomeContent extends StatelessWidget {
   final List<Driver> drivers;
 
@@ -197,26 +198,46 @@ class HomeContent extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final driver = drivers[index];
 
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Color(int.parse('FF${driver.teamColour}', radix: 16)),
-                          backgroundImage: driver.headshotUrl != null && driver.headshotUrl!.isNotEmpty
-                              ? NetworkImage(driver.headshotUrl!)
-                              : const AssetImage('assets/images/Logo_tr.png') as ImageProvider,
+                  return GestureDetector(
+                    onTap: () {
+                      if (driver.nameAcronym == "LEC") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LeclercScreen(),
+                          ),
+                        );
+                      }
+                      else if (driver.nameAcronym == "ALO") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>AlonsoScreen(),
+                          ),
+                        );
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Color(int.parse('FF${driver.teamColour}', radix: 16)),
+                            backgroundImage: driver.headshotUrl != null && driver.headshotUrl!.isNotEmpty
+                                ? NetworkImage(driver.headshotUrl!)
+                                : const AssetImage('assets/images/Logo_tr.png') as ImageProvider,
+                          ),
                         ),
-                      ),
-                      Text(
-                        driver.nameAcronym,
-                        style: TextStyle(
-                          color: Color(int.parse('FF${driver.teamColour}', radix: 16)),
-                          fontSize: 15,
+                        Text(
+                          driver.nameAcronym,
+                          style: TextStyle(
+                            color: Color(int.parse('FF${driver.teamColour}', radix: 16)),
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
                 },
               ),
@@ -374,7 +395,6 @@ class HomeContent extends StatelessWidget {
             child: F1WeatherCard(apiKey: '00488f65a339d7ecf4c890cf8c5d6f5e'),
           ),
           SizedBox(height: 20),
-
         ],
       ),
     );

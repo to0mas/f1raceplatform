@@ -1,6 +1,6 @@
-/// 🔥 FIXNUTO: RaceComparison s lepšímanalýzu výsledků
+
 class RaceComparison {
-  /// Srovnání simulovaného a expected času
+
   static Map<String, dynamic> compare({
     required double sim,
     required double expected,
@@ -19,7 +19,7 @@ class RaceComparison {
     final double diff = sim - expected;
     final double diffPercent = (diff / expected) * 100;
 
-    // 🔥 FIXNUTO: Lepší analýza výsledku
+   
     String verdict;
     if (diff < -5) {
       verdict = "EXCELLENT! Much faster than AI! 🚀🚀";
@@ -46,7 +46,7 @@ class RaceComparison {
     };
   }
 
-  /// Kvalita strategie na základě rozdílu
+
   static String _getQualityRating(double diffPercent) {
     if (diffPercent < -3) return "⭐⭐⭐⭐⭐ Excellent";
     if (diffPercent < 0) return "⭐⭐⭐⭐ Very Good";
@@ -56,7 +56,7 @@ class RaceComparison {
     return "⭐ Poor";
   }
 
-  /// Doporučení na zlepšení
+
   static String getRecommendation(double diff, int pitStops) {
     if (diff < 0) {
       return "Great strategy! Keep it up!";
@@ -73,7 +73,7 @@ class RaceComparison {
     return "Small adjustments needed to beat the AI";
   }
 
-  /// Detailní analýza
+  
   static Map<String, dynamic> getDetailedAnalysis({
     required double sim,
     required double expected,
