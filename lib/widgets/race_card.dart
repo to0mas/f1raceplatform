@@ -16,7 +16,7 @@ class _RaceCardState extends State<RaceCard> {
   List<Race> races = [];
   bool isLoading = true;
 
-  // ⏱️ COUNTDOWN
+ 
   late Timer timer;
   Duration timeLeft = Duration.zero;
   final DateTime targetDate = DateTime(2026, 5, 1);
